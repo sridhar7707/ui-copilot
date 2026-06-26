@@ -25,6 +25,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation="Add descriptive axis labels with units (e.g. 'Revenue ($)' on Y, 'Month' on X).",
                 evidence="No axis labels detected.",
                 estimated_time="10 minutes",
+                why=(
+                    "Without axis labels, users cannot determine the unit of measurement, "
+                    "whether the Y-axis starts at zero, or what time period the X-axis covers. "
+                    "The chart becomes decorative rather than informative. Every chart needs "
+                    "at minimum a title and labelled axes to pass a basic data literacy check."
+                ),
+                references=["Edward Tufte", "Datawrapper", "Stripe"],
             ))
 
         # CH2 — chart colours too similar (hard to distinguish series)
@@ -51,6 +58,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                     ),
                     evidence=f"Similar pairs: {too_close[:3]}",
                     estimated_time="15 minutes",
+                    why=(
+                        "Colour-blindness affects ~8% of men and ~0.5% of women. When chart "
+                        "series are distinguished only by hue, a large portion of your audience "
+                        "cannot read the chart. WCAG 1.4.1 requires that colour is not the "
+                        "sole means of conveying information — add patterns, shapes, or labels."
+                    ),
+                    references=["WCAG 2.1 SC 1.4.1", "Datawrapper", "Coblis"],
                 ))
 
     return issues

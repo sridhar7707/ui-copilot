@@ -56,6 +56,8 @@ async def analyze_page(
                 "evidence": i.evidence,
                 "estimated_time": i.estimated_time,
                 "estimated_gain": i.estimated_gain,
+                "why": i.why,
+                "references": i.references,
             }
             for i in result.issues
         ],

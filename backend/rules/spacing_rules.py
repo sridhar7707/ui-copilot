@@ -36,6 +36,12 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                     f"padding-left:{btn['padding_left_px']}px"
                 ),
                 estimated_time="5 minutes",
+                why=(
+                    "Cramped buttons are harder to click on touch devices and feel cheap. "
+                    "WCAG 2.5.8 requires a 24px minimum target area, but leading products "
+                    "use 44px+ height to reduce mis-taps and convey quality."
+                ),
+                references=["Apple HIG", "Material Design", "WCAG 2.5.8"],
             ))
 
     # S2 — card padding too small
@@ -62,6 +68,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                     f"{card['padding_bottom_px']}px {card['padding_left_px']}px"
                 ),
                 estimated_time="5 minutes",
+                why=(
+                    "Insufficient card padding compresses content against the edge, "
+                    "removing the visual breathing room that separates content from chrome. "
+                    "White space inside a card communicates the card's boundaries and makes "
+                    "the content feel considered, not thrown together."
+                ),
+                references=["Refactoring UI", "Notion", "Stripe"],
             ))
 
     # S3 — spacing values off the 8pt grid → consistency issue
@@ -85,6 +98,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             ),
             evidence=f"Off-grid values (sample): {sample}",
             estimated_time="30 minutes",
+            why=(
+                "Arbitrary spacing values accumulate silently into a visually inconsistent UI. "
+                "An 8pt grid means every spacing decision is predictable — developers can "
+                "reason about layout without opening a design file, and the result looks "
+                "intentional rather than hand-coded."
+            ),
+            references=["Tailwind CSS", "Material Design", "8pt Grid System"],
         ))
 
     return issues

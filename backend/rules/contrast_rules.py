@@ -47,6 +47,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 ),
                 evidence=f"{fg} on {bg} at {size}px {'bold' if bold else ''}".strip(),
                 estimated_time="10 minutes",
+                why=(
+                    "Low contrast excludes users with low vision (~4% of the population) "
+                    "and degrades readability for all users in bright sunlight. WCAG 2.1 "
+                    "SC 1.4.3 is legally required under accessibility laws in the US (ADA), "
+                    "EU (EAA), and UK (PSBAR)."
+                ),
+                references=["WCAG 2.1 SC 1.4.3", "GOV.UK Design System", "Stripe"],
             ))
             # Also flag as accessibility issue
             issues.append(Issue(
@@ -61,6 +68,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation=f"Target a contrast ratio of at least {required}:1 (WCAG AA).",
                 evidence=f"{fg} on {bg}",
                 estimated_time="10 minutes",
+                why=(
+                    "Low contrast is the #1 WCAG failure found in accessibility audits. "
+                    "It affects users with cataracts, glaucoma, and age-related vision decline — "
+                    "as well as anyone viewing your UI on a phone in sunlight. "
+                    "Screen reader users often have secondary visual impairments."
+                ),
+                references=["WCAG 2.1 SC 1.4.3", "WebAIM Million Report", "Deque"],
             ))
 
     return issues

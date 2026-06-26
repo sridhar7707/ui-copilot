@@ -19,6 +19,12 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             recommendation=f"Set body font-size to at least {t['recommended_body_size_px']}px for comfortable reading.",
             evidence=f"font-size: {body_size}px",
             estimated_time="2 minutes",
+            why=(
+                "Text below 14px strains the eyes of users over 40, and mobile browsers "
+                "auto-zoom when inputs use font-size < 16px, breaking your layout. "
+                "WCAG SC 1.4.4 requires content to reflow at 200% zoom without loss of information."
+            ),
+            references=["WCAG 2.1 SC 1.4.4", "Material Design", "iOS HIG"],
         ))
 
     # T2 — too many font families
@@ -33,6 +39,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             recommendation="Limit to two font families: one for headings, one for body text.",
             evidence=f"Fonts found: {', '.join(fonts)}",
             estimated_time="15 minutes",
+            why=(
+                "Multiple font families create visual noise and signal lack of design "
+                "intentionality. Top products use 1–2 fonts at most — variety comes from "
+                "weight, size, and spacing, not typeface. Each extra font also adds a "
+                "network request that slows page load."
+            ),
+            references=["Stripe", "Linear", "Apple"],
         ))
 
     # T3 — line height too tight
@@ -47,6 +60,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             recommendation=f"Set line-height to {t['line_height_min']}–{t['line_height_max']} for readability.",
             evidence=f"line-height: {line_height}",
             estimated_time="2 minutes",
+            why=(
+                "Tight line spacing makes paragraphs hard to scan — eyes struggle to track "
+                "from the end of one line to the start of the next. WCAG 1.4.8 recommends "
+                "a line spacing of at least 1.5 within paragraphs. Increasing line-height "
+                "is one of the highest-ROI readability improvements."
+            ),
+            references=["WCAG 2.1 SC 1.4.8", "Notion", "GitHub"],
         ))
 
     # T4 — no clear heading hierarchy (h1 and h2 too similar in size)
@@ -69,6 +89,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation="Increase the size difference between heading levels to create clear visual hierarchy.",
                 evidence=f"h1: {h1_size}px, h2: {h2_size}px",
                 estimated_time="5 minutes",
+                why=(
+                    "Users scan headings before reading. When H1 and H2 are similar in size, "
+                    "there are no visual anchors — users lose their place and can't build a "
+                    "mental model of the page structure. A minimum 1.2× ratio between levels "
+                    "is the industry-standard starting point."
+                ),
+                references=["Refactoring UI", "Stripe", "Linear"],
             ))
 
     # T5 — heading font size too small
@@ -86,6 +113,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation=f"H1/H2 should be at least {t['min_heading_size_px']}px.",
                 evidence=f"h{h['level']}: font-size {h['font_size_px']}px",
                 estimated_time="5 minutes",
+                why=(
+                    "Headings smaller than 18px are often indistinguishable from bold body text, "
+                    "collapsing the visual hierarchy. The heading is the first thing a user's eye "
+                    "should land on in a section — if it doesn't stand out, users must read "
+                    "linearly rather than scan."
+                ),
+                references=["Material Design", "Apple HIG", "WCAG 2.1"],
             ))
 
     return issues

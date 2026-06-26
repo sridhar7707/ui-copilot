@@ -25,6 +25,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             ),
             evidence=f"kpi_card_count: {kpi_count}",
             estimated_time="2 hours",
+            why=(
+                "More than 8 KPI cards overwhelm working memory (Miller's Law: 7±2 items). "
+                "When everything is highlighted, nothing is — users end up ignoring all the "
+                "metrics rather than acting on the most important ones. Leading analytics "
+                "products show 4–6 primary metrics with secondary stats hidden by default."
+            ),
+            references=["Stripe", "Linear", "Google Analytics"],
         ))
 
     # D2 — insufficient whitespace
@@ -46,6 +53,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             ),
             evidence=f"whitespace_ratio: {whitespace:.2f}",
             estimated_time="1 hour",
+            why=(
+                "Dense dashboards induce decision fatigue within seconds of viewing. "
+                "White space is not wasted space — it directs the eye to what matters, "
+                "separates concepts, and signals quality. Sparse, high-signal dashboards "
+                "are consistently rated as more trustworthy and easier to act on."
+            ),
+            references=["Notion", "Linear", "Apple Human Interface Guidelines"],
         ))
 
     return issues

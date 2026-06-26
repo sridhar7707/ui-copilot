@@ -25,6 +25,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 ),
                 evidence="No <th> or <thead> detected.",
                 estimated_time="10 minutes",
+                why=(
+                    "Screen readers announce column context from <th> elements — without "
+                    "them, table data is read as an unstructured list and is impossible to "
+                    "navigate. WCAG 1.3.1 requires programmatic relationships in tabular data. "
+                    "Visually, headers also give users an instant map of what each column means."
+                ),
+                references=["WCAG 2.1 SC 1.3.1", "GOV.UK Design System", "WebAIM"],
             ))
 
         # TBL2 — no zebra striping
@@ -38,6 +45,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation="Apply a subtle background to odd/even rows (e.g. tr:nth-child(even) { background: #f9f9f9; }).",
                 evidence="No alternating row background detected.",
                 estimated_time="10 minutes",
+                why=(
+                    "In data-dense tables, alternating row backgrounds reduce horizontal "
+                    "scanning errors by helping users track a row across wide tables. "
+                    "Leading analytics products consistently use zebra striping for tables "
+                    "with more than 5 columns or 10 rows."
+                ),
+                references=["Stripe", "Notion", "Google Sheets"],
             ))
 
         # TBL3 — insufficient cell padding
@@ -55,6 +69,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation=f"Set td, th {{ padding: {t['min_cell_padding_px']}px 12px; }} for comfortable reading.",
                 evidence=f"td padding: {cell_pad}px",
                 estimated_time="5 minutes",
+                why=(
+                    "Cramped table cells compress data to the point where users struggle to "
+                    "identify individual values without physically pointing at the screen. "
+                    "Adequate cell padding (8px+) gives each datum visual breathing room "
+                    "and dramatically improves scan speed in data-heavy views."
+                ),
+                references=["Material Design", "Stripe", "GitHub"],
             ))
 
     return issues

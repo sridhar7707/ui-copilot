@@ -26,6 +26,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 ),
                 evidence="No <label> or aria-label found for this input.",
                 estimated_time="5 minutes",
+                why=(
+                    "Unlabelled form fields are completely inaccessible to screen readers — "
+                    "the screen reader announces only the input type with no context. "
+                    "WCAG 1.3.1 and 3.3.2 both require programmatic labels. "
+                    "This is the #1 WCAG failure found in government and enterprise audits."
+                ),
+                references=["WCAG 2.1 SC 1.3.1", "WCAG 2.1 SC 3.3.2", "GOV.UK"],
             ))
 
         # F2 — placeholder used as label substitute
@@ -49,6 +56,14 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 ),
                 evidence=f"placeholder: \"{inp.get('placeholder', '')}\"",
                 estimated_time="5 minutes",
+                why=(
+                    "Placeholders disappear the moment a user starts typing, leaving those "
+                    "who pause mid-form with no reminder of what the field expects. "
+                    "Low-vision users also struggle with placeholder text, which rarely "
+                    "meets WCAG contrast requirements. This pattern is explicitly flagged "
+                    "as an anti-pattern in WCAG 3.3.2 failure techniques."
+                ),
+                references=["Nielsen Norman Group", "WCAG 2.1 SC 3.3.2", "GOV.UK"],
             ))
 
         # F3 — insufficient input padding
@@ -63,6 +78,14 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
                 recommendation=f"Set input padding to at least {t['min_input_padding_px']}px (e.g. padding: 8px 12px;).",
                 evidence=f"padding: {pad}px",
                 estimated_time="5 minutes",
+                why=(
+                    "Small input padding creates cramped form fields that are hard to tap "
+                    "on mobile and visually signal low production quality. "
+                    "Inputs with generous padding also have larger click areas, reducing "
+                    "mis-clicks. It's the single cheapest change that makes a form feel "
+                    "professionally designed."
+                ),
+                references=["Material Design", "Stripe", "iOS HIG"],
             ))
 
     return issues

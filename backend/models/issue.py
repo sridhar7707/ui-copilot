@@ -33,3 +33,5 @@ class Issue:
     evidence: str
     estimated_time: str  # human-readable, e.g. "5 minutes"
     estimated_gain: float = field(default=0.0)  # overall score points; set by scoring engine
+    why: str = ""  # why this issue matters to users (Learning Mode)
+    references: list[str] = field(default_factory=list)  # products/specs that do it right

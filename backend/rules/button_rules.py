@@ -38,6 +38,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             ),
             evidence=f"Background colours: {', '.join(distinct_bg)}",
             estimated_time="30 minutes",
+            why=(
+                "Too many button variants confuse users about which action is primary. "
+                "Inconsistent buttons also signal an absent design system — each variant "
+                "costs designers and developers time to maintain and creates visual "
+                "fragmentation that erodes trust in the product."
+            ),
+            references=["Stripe", "Linear", "Shopify Polaris"],
         ))
 
     # B2 — inconsistent border-radius
@@ -55,6 +62,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             recommendation="Pick one border-radius value for all buttons and apply it via a design token.",
             evidence=f"Radii found: {sorted(set(radii))}",
             estimated_time="10 minutes",
+            why=(
+                "Inconsistent border-radius across buttons breaks the visual rhythm of a UI. "
+                "A single radius value is often the first token a design system defines — "
+                "its consistency signals that the product is purposefully designed, "
+                "not assembled from disparate components."
+            ),
+            references=["Tailwind CSS", "Material Design", "Shopify Polaris"],
         ))
 
     # B3 — missing focus styles (accessibility)
@@ -72,6 +86,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             ),
             evidence=f"Buttons without focus style: {[b['text'] for b in no_focus]}",
             estimated_time="15 minutes",
+            why=(
+                "Keyboard-only users — including people with motor disabilities and power "
+                "users — navigate entirely via focus state. Without a visible outline, "
+                "your UI is functionally unusable for them. WCAG 2.4.7 (Level AA) requires "
+                "visible focus indicators on all interactive elements."
+            ),
+            references=["WCAG 2.1 SC 2.4.7", "GOV.UK Design System", "WebAIM"],
         ))
 
     # B4 — touch target too small
@@ -92,6 +113,13 @@ def analyze(parsed_page: dict, thresholds: dict) -> list[Issue]:
             recommendation=f"Ensure all buttons are at least {t['min_touch_target_px']}px tall (WCAG 2.5.5).",
             evidence=f"Heights: {[b['height_px'] for b in small_targets]}",
             estimated_time="10 minutes",
+            why=(
+                "Targets smaller than 44×44px cause tap errors on mobile, especially for "
+                "users with motor impairments, larger fingers, or devices in motion. "
+                "Both Apple HIG and WCAG 2.5.8 recommend 44px as the minimum touch target. "
+                "Small targets also feel cheap and unpolished."
+            ),
+            references=["Apple HIG", "WCAG 2.5.8", "Material Design"],
         ))
 
     return issues
