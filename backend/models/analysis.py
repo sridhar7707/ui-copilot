@@ -40,6 +40,45 @@ class AnalysisResult:
             if i.estimated_gain >= 1.0 and "minute" in i.estimated_time
         ]
 
+    @property
+    def high_impact(self) -> list[Issue]:
+        """Issues with the largest estimated score gain (top 5)."""
+        return [i for i in self.issues if i.estimated_gain >= 2.0][:5]
+
+    @property
+    def easy_fixes(self) -> list[Issue]:
+        """Issues that can be resolved in minutes (all severities)."""
+        return [i for i in self.issues if "minute" in i.estimated_time]
+
+    @property
+    def accessibility_fixes(self) -> list[Issue]:
+        """All accessibility-category issues, highest gain first."""
+        return [i for i in self.issues if i.category == Category.ACCESSIBILITY]
+
+    @property
+    def visual_improvements(self) -> list[Issue]:
+        """Visual hierarchy and typography issues."""
+        visual_cats = {Category.VISUAL_HIERARCHY, Category.TYPOGRAPHY}
+        return [i for i in self.issues if i.category in visual_cats]
+
+    @property
+    def consistency_improvements(self) -> list[Issue]:
+        """Consistency and spacing issues."""
+        return [i for i in self.issues if i.category == Category.CONSISTENCY]
+
+    @property
+    def roadmap(self) -> dict:
+        """Structured roadmap grouping all issue buckets."""
+        return {
+            "top_issues": self.top_issues,
+            "quick_wins": self.quick_wins,
+            "high_impact": self.high_impact,
+            "easy_fixes": self.easy_fixes,
+            "accessibility_fixes": self.accessibility_fixes,
+            "visual_improvements": self.visual_improvements,
+            "consistency_improvements": self.consistency_improvements,
+        }
+
 
 # ---------------------------------------------------------------------------
 # Input schema — the contract between parsers and the rule engine.

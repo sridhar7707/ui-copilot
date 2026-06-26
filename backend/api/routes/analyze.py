@@ -5,9 +5,36 @@ from typing import Optional
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from backend.analyzers.html_analyzer import parse
+from backend.models.issue import Issue
 from backend.services import scoring_engine
 
 router = APIRouter(tags=["analysis"])
+
+
+def _full(i: Issue) -> dict:
+    return {
+        "rule_id": i.rule_id,
+        "category": i.category.value,
+        "severity": i.severity.value,
+        "confidence": i.confidence,
+        "message": i.message,
+        "recommendation": i.recommendation,
+        "evidence": i.evidence,
+        "estimated_time": i.estimated_time,
+        "estimated_gain": i.estimated_gain,
+        "why": i.why,
+        "references": i.references,
+    }
+
+
+def _summary(i: Issue) -> dict:
+    return {
+        "rule_id": i.rule_id,
+        "severity": i.severity.value,
+        "message": i.message,
+        "estimated_gain": i.estimated_gain,
+        "estimated_time": i.estimated_time,
+    }
 
 
 @router.post("/analyze")
@@ -45,30 +72,15 @@ async def analyze_page(
             }
             for cs in result.category_scores
         ],
-        "issues": [
-            {
-                "rule_id": i.rule_id,
-                "category": i.category.value,
-                "severity": i.severity.value,
-                "confidence": i.confidence,
-                "message": i.message,
-                "recommendation": i.recommendation,
-                "evidence": i.evidence,
-                "estimated_time": i.estimated_time,
-                "estimated_gain": i.estimated_gain,
-                "why": i.why,
-                "references": i.references,
-            }
-            for i in result.issues
-        ],
+        "issues": [_full(i) for i in result.issues],
         "issue_count": len(result.issues),
-        "quick_wins": [
-            {
-                "rule_id": i.rule_id,
-                "message": i.message,
-                "estimated_gain": i.estimated_gain,
-                "estimated_time": i.estimated_time,
-            }
-            for i in result.quick_wins
-        ],
+        "roadmap": {
+            "top_issues": [_summary(i) for i in result.top_issues],
+            "quick_wins": [_summary(i) for i in result.quick_wins],
+            "high_impact": [_summary(i) for i in result.high_impact],
+            "easy_fixes": [_summary(i) for i in result.easy_fixes],
+            "accessibility_fixes": [_summary(i) for i in result.accessibility_fixes],
+            "visual_improvements": [_summary(i) for i in result.visual_improvements],
+            "consistency_improvements": [_summary(i) for i in result.consistency_improvements],
+        },
     }
