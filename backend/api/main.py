@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from backend.api.routes.analyze import router as analyze_router
+from backend.api.routes.screenshot import router as screenshot_router
 
 app = FastAPI(
     title="UICopilot",
@@ -9,6 +10,7 @@ app = FastAPI(
 )
 
 app.include_router(analyze_router, prefix="/api/v1")
+app.include_router(screenshot_router, prefix="/api/v1")
 
 
 @app.get("/health")

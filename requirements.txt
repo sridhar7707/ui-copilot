@@ -4,10 +4,10 @@ uvicorn[standard]
 python-multipart
 beautifulsoup4
 
-# --- Screenshot & CV analysis (Module 3, add when implementing Screenshot Analyzer) ---
-# Pillow
-# opencv-python-headless
-# numpy
+# Screenshot & CV analysis (Module 3)
+Pillow
+opencv-python-headless
+numpy
 
 # --- Embedding similarity scoring (Module 3b, add when implementing reference-similarity) ---
 # sentence-transformers
