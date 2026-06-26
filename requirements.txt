@@ -15,9 +15,12 @@ python-multipart
 # --- Database (add when implementing repositories) ---
 # aiosqlite
 
+# --- Runtime utilities ---
+typing_extensions
+
 # --- Dev & quality tooling ---
+pytest
 # ruff
 # mypy
-# pytest
 # pytest-asyncio
 # httpx

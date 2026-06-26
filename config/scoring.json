@@ -1,0 +1,62 @@
+{
+  "weights": {
+    "visual_hierarchy": 0.20,
+    "typography": 0.15,
+    "spacing": 0.15,
+    "consistency": 0.15,
+    "accessibility": 0.15,
+    "contrast": 0.10,
+    "component_quality": 0.10
+  },
+  "severity_deductions": {
+    "critical": 25,
+    "high": 15,
+    "medium": 8,
+    "low": 3,
+    "suggestion": 0
+  },
+  "thresholds": {
+    "spacing": {
+      "min_padding_px": 8,
+      "card_min_padding_px": 16,
+      "button_min_padding_x_px": 12,
+      "button_min_padding_y_px": 6,
+      "grid_base_px": 8,
+      "off_grid_tolerance": 2
+    },
+    "typography": {
+      "min_body_size_px": 14,
+      "recommended_body_size_px": 16,
+      "min_heading_size_px": 18,
+      "max_font_families": 2,
+      "line_height_min": 1.4,
+      "line_height_max": 1.8,
+      "min_h1_h2_ratio": 1.2
+    },
+    "contrast": {
+      "wcag_aa_normal": 4.5,
+      "wcag_aa_large": 3.0,
+      "wcag_aaa_normal": 7.0,
+      "large_text_size_px": 18,
+      "large_text_bold_size_px": 14
+    },
+    "buttons": {
+      "max_distinct_styles": 2,
+      "max_border_radius_variance_px": 4,
+      "min_touch_target_px": 44
+    },
+    "tables": {
+      "min_cell_padding_px": 8
+    },
+    "forms": {
+      "min_input_padding_px": 8
+    },
+    "dashboard": {
+      "max_kpi_cards": 8,
+      "min_whitespace_ratio": 0.20
+    },
+    "charts": {
+      "min_color_distance": 30
+    }
+  }
+}
