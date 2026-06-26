@@ -4,7 +4,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from backend.analyzers import screenshot_analyzer
 from backend.models.issue import Issue
-from backend.services import prompt_generator, scoring_engine
+from backend.services import css_generator, prompt_generator, scoring_engine
 
 router = APIRouter()
 
@@ -84,5 +84,6 @@ async def analyze_screenshot(screenshot: UploadFile = File(...)):
             "consistency_improvements": [_summary(i) for i in result.consistency_improvements],
         },
         "claude_prompt": prompt_generator.generate(result),
+        "css_snippet": css_generator.generate(result),
         "analyzed_by": "screenshot",
     }
