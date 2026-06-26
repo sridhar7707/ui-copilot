@@ -6,7 +6,12 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from backend.analyzers.html_analyzer import parse
 from backend.models.issue import Issue
-from backend.services import css_generator, prompt_generator, scoring_engine
+from backend.services import (
+    accessibility_service,
+    css_generator,
+    prompt_generator,
+    scoring_engine,
+)
 
 router = APIRouter(tags=["analysis"])
 
@@ -60,6 +65,7 @@ async def analyze_page(
 
     parsed = parse(html, css)
     result = scoring_engine.analyze(parsed)
+    a11y_report = accessibility_service.build_report(result, parsed)
 
     return {
         "overall_score": result.overall_score,
@@ -83,6 +89,7 @@ async def analyze_page(
             "visual_improvements": [_summary(i) for i in result.visual_improvements],
             "consistency_improvements": [_summary(i) for i in result.consistency_improvements],
         },
+        "accessibility": accessibility_service.report_to_dict(a11y_report),
         "claude_prompt": prompt_generator.generate(result),
         "css_snippet": css_generator.generate(result),
     }
