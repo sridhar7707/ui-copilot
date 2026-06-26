@@ -2,6 +2,7 @@
 fastapi
 uvicorn[standard]
 python-multipart
+beautifulsoup4
 
 # --- Screenshot & CV analysis (Module 3, add when implementing Screenshot Analyzer) ---
 # Pillow

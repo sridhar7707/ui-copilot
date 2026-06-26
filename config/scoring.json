@@ -22,7 +22,7 @@
       "button_min_padding_x_px": 12,
       "button_min_padding_y_px": 6,
       "grid_base_px": 8,
-      "off_grid_tolerance": 2
+      "off_grid_tolerance": 0.5
     },
     "typography": {
       "min_body_size_px": 14,

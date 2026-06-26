@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bad UI — Sample</title>
+<style>
+  body {
+    font-size: 11px;
+    font-family: Arial, Helvetica, Georgia, Verdana;
+    line-height: 1.1;
+    color: #aaaaaa;
+    background-color: #ffffff;
+    margin: 7px;
+    padding: 7px;
+  }
+  h1 { font-size: 20px; margin: 3px 0; }
+  h2 { font-size: 18px; margin: 3px 0; }
+
+  /* Three completely different button styles */
+  .btn-primary {
+    background-color: #ff0000;
+    color: #ff6600;
+    padding: 3px 6px;
+    border-radius: 2px;
+    height: 28px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    background-color: #00aa00;
+    color: #ffffff;
+    padding: 3px 6px;
+    border-radius: 12px;
+    height: 28px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-danger {
+    background-color: #0000ff;
+    color: #ffffff;
+    padding: 3px 6px;
+    border-radius: 0px;
+    height: 28px;
+    border: none;
+    cursor: pointer;
+  }
+  /* No :focus styles anywhere */
+
+  .card    { padding: 6px; border: 1px solid #dddddd; margin: 7px; }
+  .kpi-card { padding: 6px; border: 1px solid #dddddd; margin: 7px; display: inline-block; }
+
+  td    { padding: 3px; }
+  input, select, textarea { padding: 4px; }
+  .chart { width: 100%; height: 200px; }
+</style>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <h2>Overview</h2>
+
+  <!-- 12 KPI cards — well above the 8-card maximum -->
+  <div class="kpi-card"><span>Revenue</span><span>$10,000</span></div>
+  <div class="kpi-card"><span>Users</span><span>1,234</span></div>
+  <div class="kpi-card"><span>Orders</span><span>567</span></div>
+  <div class="kpi-card"><span>Conversion</span><span>2.3%</span></div>
+  <div class="kpi-card"><span>Bounce Rate</span><span>45%</span></div>
+  <div class="kpi-card"><span>Sessions</span><span>8,901</span></div>
+  <div class="kpi-card"><span>Avg Order</span><span>$89</span></div>
+  <div class="kpi-card"><span>Refunds</span><span>23</span></div>
+  <div class="kpi-card"><span>NPS</span><span>42</span></div>
+  <div class="kpi-card"><span>Tickets</span><span>17</span></div>
+  <div class="kpi-card"><span>Uptime</span><span>99.1%</span></div>
+  <div class="kpi-card"><span>Load Time</span><span>3.2s</span></div>
+
+  <!-- Three inconsistent button styles -->
+  <button class="btn-primary">Submit</button>
+  <button class="btn-secondary">Cancel</button>
+  <button class="btn-danger">Delete</button>
+
+  <!-- Form without labels (F1, F2) -->
+  <form>
+    <input type="email"    placeholder="Enter your email">
+    <input type="password" placeholder="Password">
+    <input type="text"     placeholder="Full name">
+    <input type="submit"   class="btn-primary" value="Login">
+  </form>
+
+  <!-- Table without <thead> or <th> (TBL1) -->
+  <table>
+    <tr><td>Alice</td><td>$1,200</td><td>Active</td></tr>
+    <tr><td>Bob</td>  <td>$800</td>  <td>Inactive</td></tr>
+    <tr><td>Charlie</td><td>$2,100</td><td>Active</td></tr>
+  </table>
+
+  <!-- Card with dense padding -->
+  <div class="card">
+    <p>Recent activity and metrics will appear here once data is loaded.</p>
+  </div>
+
+  <!-- Chart with no axis labels and visually indistinguishable colours -->
+  <div class="chart">
+    <div style="background-color:#cccccc; display:inline-block; width:30%; height:100px;"></div>
+    <div style="background-color:#d0d0d0; display:inline-block; width:40%; height:80px;"></div>
+    <div style="background-color:#c8c8c8; display:inline-block; width:30%; height:90px;"></div>
+  </div>
+</body>
+</html>
