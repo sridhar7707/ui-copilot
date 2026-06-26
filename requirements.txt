@@ -1,0 +1,23 @@
+# Core API
+fastapi
+uvicorn[standard]
+python-multipart
+
+# --- Screenshot & CV analysis (Module 3, add when implementing Screenshot Analyzer) ---
+# Pillow
+# opencv-python-headless
+# numpy
+
+# --- Embedding similarity scoring (Module 3b, add when implementing reference-similarity) ---
+# sentence-transformers
+# open_clip_torch
+
+# --- Database (add when implementing repositories) ---
+# aiosqlite
+
+# --- Dev & quality tooling ---
+# ruff
+# mypy
+# pytest
+# pytest-asyncio
+# httpx
