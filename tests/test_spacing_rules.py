@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import pytest
 from backend.rules import spacing_rules
 from backend.utils.config_loader import load_scoring_config
 from tests.fixtures import bad_page, clean_page

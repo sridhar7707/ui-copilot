@@ -8,7 +8,6 @@ and detected issues.
 from __future__ import annotations
 
 from backend.models.analysis import AnalysisResult
-from backend.models.issue import Category, Issue
 from backend.utils.config_loader import load_scoring_config
 
 

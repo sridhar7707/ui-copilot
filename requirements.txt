@@ -21,7 +21,6 @@ typing_extensions
 
 # --- Dev & quality tooling ---
 pytest
-# ruff
-# mypy
+ruff
 pytest-asyncio
-# httpx
+httpx

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import pytest
 from backend.rules import contrast_rules
 from backend.utils.color_utils import contrast_ratio
 from backend.utils.config_loader import load_scoring_config

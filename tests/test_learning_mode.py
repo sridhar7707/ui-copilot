@@ -30,7 +30,8 @@ def bad() -> dict:
 
 @pytest.fixture
 def thresholds() -> dict:
-    import json, pathlib
+    import json
+    import pathlib
     cfg = pathlib.Path("config/scoring.json").read_text()
     return json.loads(cfg)["thresholds"]
 

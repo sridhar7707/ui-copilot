@@ -6,7 +6,6 @@ module — tests feed it pre-built lists and assert the output.
 """
 from __future__ import annotations
 
-import pytest
 
 from backend.services import trend_service
 

@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import io
 
-import pytest
 from PIL import Image, ImageDraw
 
 from backend.analyzers import screenshot_analyzer

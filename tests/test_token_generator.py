@@ -6,7 +6,6 @@ loading the scoring config (which is a fixture of the project).
 """
 from __future__ import annotations
 
-import pytest
 
 from backend.models.analysis import AnalysisResult
 from backend.models.issue import Category, Issue, Severity

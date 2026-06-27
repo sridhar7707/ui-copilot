@@ -44,7 +44,7 @@ def generate(result: AnalysisResult) -> str:
         lines.append("## High-Impact Fixes (do these first)")
         for i in result.high_impact:
             emoji = _SEVERITY_EMOJI.get(i.severity, "")
-            lines.append(f"")
+            lines.append("")
             lines.append(f"### {emoji} {i.rule_id}")
             lines.append(f"**Problem:** {i.message}")
             lines.append(f"**Fix:** {i.recommendation}")

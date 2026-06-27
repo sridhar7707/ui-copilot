@@ -7,9 +7,8 @@ AnalysisResult fixtures.
 """
 from __future__ import annotations
 
-import pytest
 
-from backend.models.analysis import AnalysisResult, CategoryScore
+from backend.models.analysis import AnalysisResult
 from backend.models.issue import Category, Issue, Severity
 from backend.services import html_improvements
 
