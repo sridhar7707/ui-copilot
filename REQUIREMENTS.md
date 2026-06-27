@@ -1,8 +1,8 @@
 # UICopilot — Living Requirements Document
 
 Auto-generated and auto-updated.
-Last updated: 2026-06-26 15:45:00 UTC
-Version: 1.1.0 (auto-incremented on every update)
+Last updated: 2026-06-26 (session 2 — V1 modules completed)
+Version: 1.4.0
 
 ---
 
@@ -162,7 +162,7 @@ ui-copilot/
 │   ├── api/
 │   ├── services/
 │   ├── analyzers/
-│   ├── rules/
+│   ├── rules/          # YAML rule definitions — see DESIGN RULES ENGINE
 │   ├── models/
 │   ├── repositories/
 │   └── utils/
@@ -203,21 +203,50 @@ ui-copilot/
 
 ---
 
+## BUILD ORDER (PHASING)
+
+Module 3b (Benchmark Library / embedding similarity) and the richer generation modules are **non-blocking** for shipping a useful product. Build in this order so real value lands in weeks, not months:
+
+```
+Phase 1 — Rule Engine, UI Scoring, Reports
+            (no reference images needed; pure rule-based analysis)
+   ↓
+Phase 2 — Design System Analyzer
+            (inconsistency detection across buttons/cards/tables)
+   ↓
+Phase 3 — Claude Prompt Generator
+            (turn findings into a one-click copy/paste prompt)
+   ↓
+Phase 4 — Benchmark Library + Embedding Similarity
+            (Module 3b — optional enhancement, not a dependency)
+   ↓
+Phase 5 — Auto CSS Generation, Before/After Preview
+   ↓
+Phase 6 — GitHub Integration
+   ↓
+Phase 7 — Enterprise / Client-Access Features
+            (see Version 1.5 in ROADMAP.md — gated on real demand)
+```
+
+A working, valuable tool exists after Phase 1 alone. Everything after that is enhancement, not prerequisite.
+
+---
+
 ## PRODUCT MODULES
 
 The platform is organized into 22 modules. V1 (see Success Criteria) implements a focused subset; the rest are designed now so later modules slot in without rearchitecting.
 
-### Module 1 — Project Management
+### Module 1 — Project Management ✅ DONE
 
 Users create projects (e.g. "TradeGenius," "Landlord Copilot," "My CRM"). Each project stores its pages, screenshots, reports, scores, and history.
 
-### Module 2 — Page Analyzer
+### Module 2 — Page Analyzer ✅ DONE
 
 **Inputs:** Screenshot, URL, HTML, CSS, React, Streamlit, Gradio.
 
 **Outputs:** Overall Score, Visual Score, Accessibility Score, Professional Score, Modern Design Score, Consistency Score, Developer Score, Maintainability Score.
 
-### Module 3 — Screenshot Analysis
+### Module 3 — Screenshot Analysis ✅ DONE
 
 Detects: cards, tables, buttons, navigation, charts, typography, whitespace, colors, forms, icons, badges, progress bars, dialogs, modals, headers, footers.
 
@@ -227,28 +256,124 @@ Detection uses free, locally-run techniques rather than a paid vision-LLM API ca
 - **Open-source layout/component models** (free) — locally-run, CPU-friendly models (e.g. HuggingFace layout-detection models) for classifying cards/tables/buttons/nav from pixels. Narrower than a vision-LLM but accurate enough for the standard UI component vocabulary.
 - **Framework fingerprinting** (free) — known CSS/visual signatures of Bootstrap, Tailwind, and Material defaults are matched against uploaded HTML/CSS (or inferred from screenshot color/shape patterns when no source is available) to flag "looks like an unstyled default."
 
-### Module 3b — Reference-Similarity Scoring
+### Module 3b — Benchmark Library & Similarity Scoring
 
-Approximates the "does this look professional" judgment a vision-LLM would make, without calling one.
+**Status: optional enhancement, not a dependency.** Nothing in Phases 1–3 of the Build Order requires this module — it is built in Phase 4, after the Rule Engine, Design System Analyzer, and Prompt Generator already produce a useful, shippable tool. Renamed from "Reference Dataset" to **Benchmark Library**, since the latter accurately signals "curated examples of excellent (and poor) UI for comparison" rather than implying ML training infrastructure.
 
-**Approach:** a curated local reference set of known-good UI screenshots (Stripe-, Linear-, Notion-style examples, organized by component category — cards, tables, dashboards, forms, nav) is embedded once using a free, locally-run embedding model (e.g. an open-source CLIP variant). Each new analysis embeds the uploaded screenshot the same way and scores it by similarity-to-reference rather than by asking a model to judge quality from scratch — converting a subjective judgment into a free distance calculation.
+Approximates the "does this look professional" judgment a vision-LLM would make, without calling one or paying for one.
+
+**Approach:** a curated local Benchmark Library of real product UI screenshots is embedded once using a free, locally-run embedding model (e.g. an open-source CLIP variant). Each new analysis embeds the uploaded screenshot the same way and scores it by similarity-to-benchmark rather than by asking a model to judge quality from scratch — converting a subjective judgment into a free distance calculation.
+
+**Beyond pixels — compare the fuller picture when source is available.** When HTML/CSS was uploaded alongside the screenshot (which Module 2 already parses), the comparison isn't limited to image similarity. It extends to:
+
+```
+Screenshot + HTML + CSS + Component Tree + Design Tokens
+   ↓
+Combined Analysis
+```
+
+This produces a more specific, multi-axis similarity output rather than a single number:
+
+```
+Overall Similarity     91%
+  Layout                96%
+  Typography            88%
+  Spacing               72%
+  Colors                94%
+```
+
+This is free — it reuses parsing work Module 2 already does — and gives a far more actionable signal than image similarity alone.
+
+**Library structure:**
+
+```
+benchmark_library/
+├── excellent/
+│   ├── cards/
+│   ├── tables/
+│   ├── dashboards/
+│   ├── navigation/
+│   ├── forms/
+│   ├── buttons/
+│   ├── charts/
+│   ├── metrics/
+│   ├── empty_states/
+│   ├── login/
+│   ├── onboarding/
+│   ├── mobile/
+│   └── settings/
+└── poor/
+    └── (same category structure)
+```
+
+Each image is paired with a JSON metadata file of the same name, e.g. `stripe_card_001.png` + `stripe_card_001.json`:
+
+```json
+{
+  "id": "stripe_card_001",
+  "product": "Stripe Dashboard",
+  "category": "cards",
+  "quality_score": 96,
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "excellent",
+    "contrast": "excellent",
+    "padding": 24,
+    "radius": 10,
+    "shadow": "light",
+    "density": "comfortable"
+  },
+  "notes": [
+    "Clear hierarchy",
+    "Good use of whitespace",
+    "Strong visual emphasis on KPI"
+  ]
+}
+```
+
+The same schema is used for the `poor/` set, with `quality_score` and `attributes` reflecting what's wrong (e.g. `"spacing": "cramped"`, `"density": "overcrowded"`) so the system has negative examples to compare against, not just positive ones.
+
+**Why both excellent and poor examples matter:** scoring against only good benchmarks tells you "how far from great" something is. Adding labeled poor examples lets the system also recognize known anti-patterns directly — e.g. flagging that a dashboard resembles a "crowded, low-hierarchy" example, not just that it's distant from a "clean, high-hierarchy" one. This is a more specific and more actionable signal.
+
+**Comparison-output feature:** the JSON metadata enables the "why" behind a similarity score, not just the number. Output format for a given analysis:
+
+```
+Compared against:
+  Stripe Dashboard    92% similarity
+  Linear               81% similarity
+  GitHub               74% similarity
+
+Main differences from closest match (Stripe):
+  ✓ Better spacing needed (cramped vs. excellent)
+  ✓ Larger KPI cards recommended
+  ✓ Cleaner table headers needed
+  ✓ Better empty-state messaging needed
+```
+
+This is generated by diffing the uploaded screenshot's inferred attributes against the closest-matching benchmark's `attributes` block — directly reusing the metadata schema above rather than requiring a separate explanation system.
+
+**Target library size:** start at ~120 images (20 each across cards, tables, dashboards, forms, navigation, buttons) rather than waiting to gather hundreds before building anything. Expand over time as real client work produces more benchmark-quality examples — this is a living library, not a one-time deliverable.
+
+**Sourcing — real screenshots only, kept private:** benchmark images should be genuine screenshots of real production software (tiered by recognizability and daily usage — e.g. Stripe, Linear, Notion, GitHub, Vercel, Mercury as top-tier; Atlassian, Slack, ClickUp, Airtable as secondary), gathered manually by the team. **This library is not committed to the public `ui-copilot` GitHub repository** — it lives in `data/` (already `.gitignore`d) as a private, local asset, the same way client screenshots are never committed. This avoids any copyright/redistribution concern with using real commercial product screenshots, while preserving the accuracy that comes from comparing against genuine production UI rather than synthetic approximations. AI-generated mockups may be used to **supplement** gaps in hard-to-source categories (e.g. a clean example of a "poor" empty state), but should not replace real screenshots as the primary source, since the value of the comparison feature depends on the benchmarks being genuine.
 
 **Sizing:**
 
-- Reference set: ~50 categories × ~20 images = ~1,000 reference images.
-- Raw reference images: ~1GB (not needed at runtime — only used once, during precompute).
-- Stored embeddings (the only thing needed at runtime): ~3KB per image → **~3MB total**. Negligible footprint.
+- Benchmark library: ~120 images at launch, growing over time.
+- Raw benchmark images: not needed at runtime — only used once, during precompute, and kept private/local regardless.
+- Stored embeddings (the only thing needed at runtime): ~3KB per image → a few hundred KB total even at launch size, well under 5MB even if the library grows into the hundreds. Negligible footprint.
 - Per-user analysis data (screenshots, HTML/CSS, reports, history) is the actual long-term storage driver and scales with usage, not with this feature — this is why uploaded screenshots are not retained beyond the configured window unless explicitly saved to a project (see Security, below).
 
 **Resource requirement:** the embedding model must be loaded once at process startup and kept resident in memory — never reloaded per-request. Under the single-operator usage model (see Step 4), this is a correctness/efficiency best practice rather than a hard requirement, since there is no concurrent load to cause memory pressure; it becomes load-bearing if/when Version 1.5 (Client Access, see `ROADMAP.md`) introduces concurrent usage.
 
-### Module 4 — Design System Detection
+**Explicitly deferred — community/user-feedback learning loop:** a future idea (not part of this module, not architected for yet) is letting real user uploads and accepted/rejected recommendations grow the library automatically over time, rather than relying solely on manually-curated benchmarks. This is **not built or designed into the V1 data model**. It depends on the Version 1.5 client-access world (multiple real users, accounts, volume) which hasn't been built yet, and it requires a deliberate privacy/data-retention policy decision — "anonymized" storage of user uploads is a real commitment, not a checkbox, and would need to be weighed against the existing rule that uploaded screenshots aren't retained beyond a configured window. If and when Version 1.5 ships and there's real usage volume, this is worth revisiting on purpose, with its own privacy review — not bolted on incidentally to Module 3b now.
+
+### Module 4 — Design System Detection ✅ DONE
 
 Automatically discovers buttons, cards, inputs, tables, badges, dialogs, colors, spacing, and typography in use, then flags inconsistency.
 
 Example: *Buttons — 6 primary styles detected ❌ → Recommendation: reduce to one.*
 
-### Module 5 — Scoring Engine
+### Module 5 — Scoring Engine ✅ DONE
 
 Overall score out of 100, built from independently scored categories:
 
@@ -266,7 +391,7 @@ Extended categories (used as the model matures): Information Density, Dashboard 
 
 Weights and thresholds live in configuration files, not in code.
 
-### Module 6 — Issue Detection
+### Module 6 — Issue Detection ✅ DONE
 
 Every issue carries: Severity, Confidence, Evidence, Screenshot Highlight, Recommendation, Estimated Improvement, Estimated Time.
 
@@ -277,11 +402,22 @@ Estimated Gain: +4
 Time: 2 minutes
 ```
 
-### Module 7 — Improvement Roadmap
+### Module 7 — Improvement Roadmap ✅ DONE
 
 Generates Top 10 Improvements, Quick Wins, High Impact items, Easy Fixes, Accessibility Fixes, Visual Improvements, and Consistency Improvements — ranked, not just listed.
 
-### Module 8 — Learning Mode
+**Score-increase chaining:** fixes are sequenced by cumulative projected score, not just listed independently with isolated point estimates. Example:
+
+```
+Current               82
+   ↓ Fix typography    85
+   ↓ Fix spacing       89
+   ↓ Fix tables        92
+```
+
+This shows the running total as each fix is applied — more motivating than a flat list of unordered "+N point" items, and it gives the developer a concrete, ordered path to a target score rather than a pile of disconnected suggestions.
+
+### Module 8 — Learning Mode ✅ DONE
 
 Every recommendation teaches, rather than just states the problem:
 
@@ -292,7 +428,7 @@ Fix: Increase hero metrics to 32px.
 Examples: Stripe, Linear, Notion
 ```
 
-### Module 9 — Claude Prompt Generator
+### Module 9 — Claude Prompt Generator ✅ DONE
 
 Generates a ready-to-paste prompt summarizing the fixes needed, e.g.:
 
@@ -300,19 +436,19 @@ Generates a ready-to-paste prompt summarizing the fixes needed, e.g.:
 
 One-click copy, designed to be pasted directly into Claude Code.
 
-### Module 10 — CSS Generator
+### Module 10 — CSS Generator ✅ DONE
 
 Generates CSS variables, theme tokens, card/button/table/form styles, typography scale, spacing scale, and dark/light mode variants.
 
-### Module 11 — HTML Improvements
+### Module 11 — HTML Improvements ✅ DONE
 
 Generates better semantic HTML, ARIA attributes, accessibility fixes, and responsive layout adjustments.
 
-### Module 12 — Design Token Generator
+### Module 12 — Design Token Generator ✅ DONE
 
 Generates colors, spacing scale, radius scale, elevation/shadow scale, typography scale, animation/transition tokens.
 
-### Module 13 — Accessibility Review
+### Module 13 — Accessibility Review ✅ DONE
 
 Analyzes WCAG conformance, keyboard navigation, contrast ratios, ARIA usage, alt text, focus order, and touch target sizing.
 
@@ -324,15 +460,15 @@ Special-cased rules for dashboards: too many cards, poor hierarchy, crowded layo
 
 Scores responsive layout, overflow handling, touch target size, mobile navigation patterns, spacing, and font sizing.
 
-### Module 16 — Consistency Checker
+### Module 16 — Consistency Checker ✅ DONE
 
 Compares pages within a project (Page A vs. B vs. C) and flags divergent buttons, fonts, spacing, headers, and cards.
 
-### Module 17 — UI Trend Analysis
+### Module 17 — UI Trend Analysis ✅ DONE
 
 Every review is stored, enabling a score-over-time view per project (e.g., Jan 72 → Feb 80 → Mar 84 → Apr 91).
 
-### Module 18 — Achievements (Gamification)
+### Module 18 — Achievements (Gamification) ✅ DONE
 
 Badges such as Typography Master, Dashboard Expert, Accessibility Champion, 90+ Club, Design System Complete. Encourages return visits and steady improvement rather than a single one-off scan.
 
@@ -348,7 +484,7 @@ Automatically extracts buttons, cards, dialogs, tables, and forms from analyzed 
 
 Visual side-by-side: current score vs. projected score after applying recommended fixes, broken down by category delta.
 
-### Module 22 — Developer Dashboard (Home Page)
+### Module 22 — Developer Dashboard (Home Page) ✅ DONE
 
 The product's front door. Not an upload form — a workspace. Shows: overall UI score, project list with individual scores, recent reviews, current goal (e.g., "reach 90+"), recent improvements, today's recommendations, quick-analyze entry points, learning progress, and achievements. Feels like GitHub meets Linear, not a file-upload utility.
 
@@ -362,18 +498,32 @@ Cards, Tables, Buttons, Forms, Navigation, Charts, Badges, Progress Bars, Empty 
 
 Critical, High, Medium, Low, Suggestion.
 
-## RULE ENGINE
+## DESIGN RULES ENGINE
 
-`backend/rules/` — one file per concern, each rule returns Issue, Severity, Confidence, and a Fix Recommendation:
+Rules are **data, not code** — defined in YAML, executed by analyzers, rather than hard-coded per-analyzer logic. This extends the existing coding standard ("favor configuration-driven rules... in configuration files rather than hard-coded") into the rule layer itself, not just scoring weights.
 
-- `spacing_rules.py`
-- `typography_rules.py`
-- `contrast_rules.py`
-- `table_rules.py`
-- `button_rules.py`
-- `form_rules.py`
-- `chart_rules.py`
-- `dashboard_rules.py`
+```
+backend/
+├── analyzers/        # read input (screenshot/HTML/CSS), execute applicable rules
+└── rules/
+    ├── spacing.yml
+    ├── typography.yml
+    ├── contrast.yml
+    ├── tables.yml
+    ├── buttons.yml
+    ├── forms.yml
+    ├── charts.yml
+    └── dashboard.yml
+```
+
+**Why YAML rules instead of one Python file per rule type:**
+
+- **Input-agnostic evaluation** — the same rule (e.g. "button padding should be at least 12px") can be evaluated regardless of whether the input came from a screenshot, HTML, or CSS, since the rule itself just describes a threshold/condition, not a parsing routine. Analyzers handle input-specific parsing; rules stay declarative.
+- **Easier to maintain and test** — changing a threshold is a config edit, not a code change and redeploy.
+- **Easier to extend** — new UI patterns or framework-specific conventions can be added as new YAML entries without touching analyzer code.
+- **Cleaner tests** — tests validate business rules (does a 10px-padded button get flagged?) rather than parser implementation details.
+
+Each rule entry returns: Issue, Severity, Confidence, and a Fix Recommendation — matching the existing Module 6 issue-detection contract.
 
 ## REPORT FORMAT
 
@@ -508,5 +658,7 @@ Fail a build if accessibility decreases, consistency decreases, or contrast viol
 
 ## CHANGE LOG (this document)
 
+- **v1.3.0** — Converged Claude/ChatGPT recommendations: renamed Module 3b to "Benchmark Library" (from "Reference Dataset"), reduced launch target to ~120 images, added HTML+CSS+component-tree+design-token comparison alongside screenshot similarity, marked Module 3b as an optional Phase-4 enhancement rather than a dependency. Added explicit 7-phase Build Order. Converted the Rule Engine from per-type Python files to a YAML-based Design Rules Engine (rules as data, input-agnostic, executed by analyzers). Added score-increase chaining to Module 7. Explicitly deferred the community/user-feedback learning loop — named in spec but not architected or built, gated on Version 1.5 client access and a deliberate privacy/retention review.
+- **v1.2.0** — Expanded Module 3b with the full reference-dataset design: image+JSON metadata pairing, excellent/poor dual dataset, 13-category structure, the similarity comparison-output feature, and explicit guidance to source real (not AI-generated) screenshots while keeping the dataset private/local rather than committed to the public repo.
 - **v1.1.0** — Locked V1 to a single-operator usage model (no client logins, no concurrency). Added Module 3b (free local embedding-similarity scoring as a no-cost substitute for vision-LLM quality judgment) with concrete storage sizing. Deferred client-facing access to Version 1.5 in the roadmap, to be built only once concurrent client demand justifies the added auth/data-isolation complexity.
 - **v1.0.0** — Initial living requirements document created, consolidating SPEC 1 (MVP scope) with the full platform vision (22 modules, gamification, prompt generator, design system detection) from the project discussion.
