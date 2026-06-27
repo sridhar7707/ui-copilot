@@ -18,6 +18,7 @@ GET  /api/v1/pages/{id}/trend           — score-over-time for one page
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import Response
 from pydantic import BaseModel
 
 from backend.repositories import analysis_repo, page_repo, project_repo
@@ -60,11 +61,12 @@ async def get_project(project_id: int) -> dict:
     return project
 
 
-@router.delete("/projects/{project_id}", status_code=204)
-async def delete_project(project_id: int) -> None:
+@router.delete("/projects/{project_id}", status_code=204, response_class=Response)
+async def delete_project(project_id: int) -> Response:
     deleted = await project_repo.delete(project_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Project not found.")
+    return Response(status_code=204)
 
 
 # ── pages ─────────────────────────────────────────────────────────────────────

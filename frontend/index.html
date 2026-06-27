@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UICopilot — Developer Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-2: #334155;
+      --color-border: #334155;
+      --color-primary: #60a5fa;
+      --color-primary-hover: #93c5fd;
+      --color-text: #f1f5f9;
+      --color-muted: #94a3b8;
+      --color-success: #4ade80;
+      --color-warning: #fbbf24;
+      --color-danger: #f87171;
+      --color-purple: #a78bfa;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgb(0 0 0 / .3);
+      --font: system-ui, -apple-system, sans-serif;
+    }
+    body { font-family: var(--font); background: var(--color-bg); color: var(--color-text); min-height: 100vh; }
+    a { color: var(--color-primary); text-decoration: none; }
+    a:hover { color: var(--color-primary-hover); }
+    button { font-family: var(--font); cursor: pointer; }
+
+    /* Layout */
+    .layout { display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 56px 1fr; min-height: 100vh; }
+
+    /* Header */
+    .header {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 16px;
+      padding: 0 24px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .logo { font-weight: 700; font-size: 18px; letter-spacing: -.5px; }
+    .logo span { color: var(--color-primary); }
+    .header-actions { margin-left: auto; display: flex; gap: 8px; }
+    .btn {
+      padding: 7px 14px; border-radius: var(--radius);
+      font-size: 13px; font-weight: 500; border: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      min-height: 36px; transition: opacity .15s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn-primary { background: var(--color-primary); color: #0f172a; }
+    .btn-secondary { background: var(--color-surface-2); color: var(--color-text); }
+    .btn-sm { padding: 5px 10px; font-size: 12px; min-height: 30px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+    .badge-success { background: #14532d; color: var(--color-success); }
+    .badge-warn { background: #78350f; color: var(--color-warning); }
+    .badge-danger { background: #7f1d1d; color: var(--color-danger); }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      padding: 16px 0;
+      overflow-y: auto;
+    }
+    .sidebar-section { padding: 0 12px; margin-bottom: 8px; }
+    .sidebar-label { font-size: 11px; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: .08em; padding: 0 8px; margin-bottom: 4px; }
+    .project-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 8px; border-radius: 6px; cursor: pointer;
+      font-size: 13px; transition: background .1s;
+    }
+    .project-item:hover, .project-item.active { background: var(--color-surface-2); }
+    .project-item .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .project-item .score { font-size: 12px; font-weight: 600; color: var(--color-muted); }
+    .score-good { color: var(--color-success) !important; }
+    .score-mid { color: var(--color-warning) !important; }
+    .score-bad { color: var(--color-danger) !important; }
+    .sidebar-divider { border: none; border-top: 1px solid var(--color-border); margin: 8px 12px; }
+
+    /* Main */
+    .main { padding: 24px; overflow-y: auto; }
+    .main-grid { display: grid; gap: 20px; }
+    .section-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+    /* Cards */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .card-title { font-size: 13px; font-weight: 600; color: var(--color-muted); }
+
+    /* Score ring */
+    .score-overview { display: flex; align-items: center; gap: 24px; }
+    .score-ring { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring .score-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .score-number { font-size: 22px; font-weight: 700; line-height: 1; }
+    .score-label { font-size: 9px; color: var(--color-muted); text-transform: uppercase; letter-spacing: .05em; }
+    .score-details { flex: 1; }
+    .score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+    .score-row-label { color: var(--color-muted); width: 100px; flex-shrink: 0; }
+    .score-bar { flex: 1; height: 4px; background: var(--color-surface-2); border-radius: 2px; overflow: hidden; }
+    .score-bar-fill { height: 100%; border-radius: 2px; background: var(--color-primary); }
+    .score-row-val { width: 32px; text-align: right; font-size: 11px; font-weight: 600; }
+
+    /* Two-column grid */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 1px dashed var(--color-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .upload-zone:hover { border-color: var(--color-primary); background: rgb(96 165 250 / .05); }
+    .upload-zone input { display: none; }
+    .upload-zone .icon { font-size: 24px; margin-bottom: 8px; }
+    .upload-zone .label { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+    .upload-zone .hint { font-size: 11px; color: var(--color-muted); }
+
+    /* Analysis result */
+    .result-panel { display: none; }
+    .result-panel.visible { display: block; }
+    .issues-list { list-style: none; }
+    .issue-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--color-border); font-size: 12px; }
+    .issue-item:last-child { border-bottom: none; }
+    .issue-sev { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; flex-shrink: 0; align-self: flex-start; }
+    .sev-critical { background: #7f1d1d; color: #fca5a5; }
+    .sev-high { background: #78350f; color: #fcd34d; }
+    .sev-medium { background: #1e3a5f; color: #93c5fd; }
+    .sev-low { background: #1e293b; color: var(--color-muted); }
+    .sev-suggestion { background: #1e293b; color: var(--color-muted); }
+    .issue-content { flex: 1; }
+    .issue-msg { margin-bottom: 2px; color: var(--color-text); }
+    .issue-rec { color: var(--color-muted); }
+    .issue-gain { flex-shrink: 0; color: var(--color-success); font-weight: 600; }
+
+    /* Achievement row */
+    .badges-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .badge-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 10px; border-radius: 6px; font-size: 12px;
+      border: 1px solid var(--color-border);
+    }
+    .badge-chip.earned { border-color: #3d2f00; background: #1a1200; color: var(--color-warning); }
+    .badge-chip.locked { color: var(--color-muted); opacity: .5; }
+
+    /* Trend sparkline */
+    .sparkline-wrap { overflow: hidden; }
+    .sparkline-wrap svg { width: 100%; height: 50px; }
+
+    /* Analyses table */
+    .analyses-list { list-style: none; }
+    .analysis-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid var(--color-border);
+      font-size: 12px;
+    }
+    .analysis-item:last-child { border-bottom: none; }
+    .analysis-score { font-weight: 700; font-size: 16px; width: 40px; text-align: right; }
+    .analysis-meta { flex: 1; }
+    .analysis-url { font-size: 13px; color: var(--color-text); }
+    .analysis-date { color: var(--color-muted); }
+    .analysis-source { padding: 2px 6px; border-radius: 4px; font-size: 10px; background: var(--color-surface-2); }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--color-border); margin-bottom: 16px; }
+    .tab { padding: 8px 16px; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; color: var(--color-muted); transition: color .15s; }
+    .tab:hover { color: var(--color-text); }
+    .tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* New project form */
+    .form-group { margin-bottom: 12px; }
+    .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--color-muted); margin-bottom: 4px; }
+    .form-input {
+      width: 100%; padding: 8px 10px; font-size: 13px;
+      background: var(--color-surface-2); border: 1px solid var(--color-border);
+      border-radius: 6px; color: var(--color-text); font-family: var(--font);
+    }
+    .form-input:focus { outline: none; border-color: var(--color-primary); }
+
+    /* Toast */
+    .toast-wrap { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; }
+    .toast {
+      padding: 10px 14px; border-radius: var(--radius); font-size: 13px;
+      background: var(--color-surface-2); border: 1px solid var(--color-border);
+      animation: slideIn .2s ease; max-width: 320px;
+    }
+    .toast.success { border-color: var(--color-success); color: var(--color-success); }
+    .toast.error { border-color: var(--color-danger); color: var(--color-danger); }
+    @keyframes slideIn { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+    /* Spinner */
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--color-border); border-top-color: var(--color-primary); border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Empty state */
+    .empty { text-align: center; padding: 32px 16px; color: var(--color-muted); font-size: 13px; }
+    .empty .icon { font-size: 32px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="logo">🎨 UICopilot</div>
+    <nav aria-label="Quick actions" class="header-actions">
+      <button class="btn btn-secondary btn-sm" onclick="openTab('analyze-html')">
+        <span>📄</span> Analyze HTML
+      </button>
+      <button class="btn btn-primary btn-sm" onclick="openTab('analyze-screenshot')">
+        <span>📷</span> Analyze Screenshot
+      </button>
+    </nav>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" aria-label="Projects">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Projects</div>
+    </div>
+    <div class="sidebar-section">
+      <button class="btn btn-secondary btn-sm" style="width:100%" onclick="showNewProjectModal()">+ New Project</button>
+    </div>
+    <hr class="sidebar-divider">
+    <div class="sidebar-section" id="project-list">
+      <div class="empty"><span class="spinner"></span></div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main" id="main-content">
+
+    <!-- Tab bar -->
+    <div class="tabs">
+      <div class="tab active" data-tab="overview" onclick="switchTab('overview')">Overview</div>
+      <div class="tab" data-tab="analyze-html" onclick="switchTab('analyze-html')">Analyze HTML</div>
+      <div class="tab" data-tab="analyze-screenshot" onclick="switchTab('analyze-screenshot')">Screenshot</div>
+      <div class="tab" data-tab="achievements" onclick="switchTab('achievements')">Achievements</div>
+    </div>
+
+    <!-- Overview tab -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="main-grid">
+
+        <!-- Score overview card -->
+        <div class="card" id="score-card">
+          <div class="card-header">
+            <div class="card-title">SCORE OVERVIEW</div>
+            <div id="score-project-name" style="font-size:13px;font-weight:600;"></div>
+          </div>
+          <div id="score-overview-content">
+            <div class="empty"><div class="icon">📊</div>Select a project or run an analysis to see your score.</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <!-- Recent analyses -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">RECENT ANALYSES</div>
+            </div>
+            <ul class="analyses-list" id="recent-analyses">
+              <div class="empty"><div class="icon">🔍</div>No analyses yet.</div>
+            </ul>
+          </div>
+
+          <!-- Score trend -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">SCORE TREND</div>
+              <div id="trend-delta" style="font-size:12px;font-weight:600;"></div>
+            </div>
+            <div class="sparkline-wrap" id="sparkline-wrap">
+              <div class="empty"><div class="icon">📈</div>Run multiple analyses to see trends.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Roadmap -->
+        <div class="card" id="roadmap-card" style="display:none">
+          <div class="card-header">
+            <div class="card-title">TOP ISSUES — QUICK WINS</div>
+          </div>
+          <ul class="issues-list" id="roadmap-issues"></ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Analyze HTML tab -->
+    <div class="tab-panel" id="tab-analyze-html">
+      <div class="two-col">
+        <div>
+          <p class="section-title">📄 Analyze HTML</p>
+          <div class="card">
+            <div class="form-group">
+              <label class="form-label" for="html-project-select">Save to project (optional)</label>
+              <select class="form-input" id="html-project-select">
+                <option value="">— don't save —</option>
+              </select>
+            </div>
+            <label class="upload-zone" for="html-file-input" ondrop="handleDrop(event,'html')" ondragover="e=>e.preventDefault()">
+              <input type="file" id="html-file-input" accept=".html,.htm" onchange="analyzeHTML()">
+              <div class="icon">📄</div>
+              <div class="label">Drop HTML file here or click to browse</div>
+              <div class="hint">.html / .htm files only</div>
+            </label>
+            <div style="margin-top:8px;display:flex;gap:8px">
+              <label class="upload-zone" style="flex:1;padding:10px" for="css-file-input">
+                <input type="file" id="css-file-input" accept=".css">
+                <div class="hint">+ Optional CSS file</div>
+              </label>
+            </div>
+            <div id="html-loading" style="display:none;text-align:center;padding:12px"><span class="spinner"></span> Analyzing…</div>
+          </div>
+        </div>
+        <div class="result-panel" id="html-result">
+          <p class="section-title">Results</p>
+          <div id="html-result-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screenshot tab -->
+    <div class="tab-panel" id="tab-analyze-screenshot">
+      <div class="two-col">
+        <div>
+          <p class="section-title">📷 Analyze Screenshot</p>
+          <div class="card">
+            <div class="form-group">
+              <label class="form-label" for="ss-project-select">Save to project (optional)</label>
+              <select class="form-input" id="ss-project-select">
+                <option value="">— don't save —</option>
+              </select>
+            </div>
+            <label class="upload-zone" for="ss-file-input">
+              <input type="file" id="ss-file-input" accept="image/*" onchange="analyzeScreenshot()">
+              <div class="icon">🖼️</div>
+              <div class="label">Drop screenshot here or click to browse</div>
+              <div class="hint">PNG / JPG / WebP</div>
+            </label>
+            <div id="ss-loading" style="display:none;text-align:center;padding:12px"><span class="spinner"></span> Analyzing…</div>
+          </div>
+        </div>
+        <div class="result-panel" id="ss-result">
+          <p class="section-title">Results</p>
+          <div id="ss-result-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements tab -->
+    <div class="tab-panel" id="tab-achievements">
+      <p class="section-title">🏆 Achievements</p>
+      <div class="card" id="achievements-content">
+        <div class="empty"><div class="icon">🏆</div>Select a project to see badges.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- New Project Modal (inline) -->
+<div id="new-project-modal" style="display:none;position:fixed;inset:0;background:rgb(0 0 0/.6);z-index:1000;display:none;align-items:center;justify-content:center">
+  <div class="card" style="width:340px">
+    <p class="section-title" style="margin-bottom:16px">New Project</p>
+    <div class="form-group">
+      <label class="form-label" for="new-project-name">Project name *</label>
+      <input class="form-input" id="new-project-name" type="text" placeholder="e.g. TradeGenius Dashboard">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="new-project-desc">Description</label>
+      <input class="form-input" id="new-project-desc" type="text" placeholder="Optional">
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-secondary" onclick="hideNewProjectModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="createProject()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toast-wrap" aria-live="polite"></div>
+
+<script>
+const API = '/api/v1';
+let activeProject = null;
+let projects = [];
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  await loadProjects();
+}
+
+// ── Projects ──────────────────────────────────────────────────────────────────
+async function loadProjects() {
+  try {
+    const res = await fetch(`${API}/projects`);
+    projects = await res.json();
+    renderProjectList();
+    populateProjectSelects();
+    if (projects.length > 0) selectProject(projects[0]);
+  } catch (e) {
+    document.getElementById('project-list').innerHTML = '<div class="empty">Could not load projects.</div>';
+  }
+}
+
+function renderProjectList() {
+  const el = document.getElementById('project-list');
+  if (!projects.length) {
+    el.innerHTML = '<div class="empty" style="font-size:12px">No projects yet. Create one above.</div>';
+    return;
+  }
+  el.innerHTML = projects.map(p => {
+    const cls = activeProject?.id === p.id ? 'project-item active' : 'project-item';
+    return `<div class="${cls}" onclick="selectProject(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+      <span class="name">${esc(p.name)}</span>
+    </div>`;
+  }).join('');
+}
+
+function populateProjectSelects() {
+  const opts = '<option value="">— don\'t save —</option>' +
+    projects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  document.getElementById('html-project-select').innerHTML = opts;
+  document.getElementById('ss-project-select').innerHTML = opts;
+}
+
+async function selectProject(p) {
+  activeProject = p;
+  renderProjectList();
+  await loadProjectData(p.id);
+}
+
+async function loadProjectData(projectId) {
+  document.getElementById('score-project-name').textContent = activeProject?.name ?? '';
+  // Load pages and their latest analyses
+  try {
+    const [pagesRes, trendRes] = await Promise.all([
+      fetch(`${API}/projects/${projectId}/pages`),
+      fetch(`${API}/projects/${projectId}/trend`),
+    ]);
+    const pages = await pagesRes.json();
+    const trend = await trendRes.json();
+
+    renderScoreOverview(trend);
+    renderSparkline(trend);
+    await renderRecentAnalyses(projectId, pages);
+    await loadAchievements(projectId);
+  } catch (e) {
+    document.getElementById('score-overview-content').innerHTML =
+      '<div class="empty">Could not load project data.</div>';
+  }
+}
+
+// ── Score overview ─────────────────────────────────────────────────────────────
+function renderScoreOverview(trend) {
+  const el = document.getElementById('score-overview-content');
+  const score = trend.avg_latest_score;
+  if (score == null) {
+    el.innerHTML = '<div class="empty">No analyses yet for this project.</div>';
+    return;
+  }
+  const colour = score >= 80 ? '#4ade80' : score >= 60 ? '#fbbf24' : '#f87171';
+  const circ = 2 * Math.PI * 34;
+  const fill = circ * (1 - score / 100);
+  el.innerHTML = `
+    <div class="score-overview">
+      <div class="score-ring">
+        <svg viewBox="0 0 76 76" width="80" height="80">
+          <circle cx="38" cy="38" r="34" fill="none" stroke="#334155" stroke-width="6"/>
+          <circle cx="38" cy="38" r="34" fill="none" stroke="${colour}" stroke-width="6"
+            stroke-dasharray="${circ}" stroke-dashoffset="${fill}" stroke-linecap="round"/>
+        </svg>
+        <div class="score-text">
+          <span class="score-number" style="color:${colour}">${Math.round(score)}</span>
+          <span class="score-label">/ 100</span>
+        </div>
+      </div>
+      <div class="score-details">
+        <div class="score-row"><span class="score-row-label">Pages analyzed</span><span>${trend.page_count ?? 0}</span></div>
+        <div class="score-row"><span class="score-row-label">Best score</span><span style="color:${colour}">${trend.best_score ?? '—'}</span></div>
+        <div class="score-row"><span class="score-row-label">Total analyses</span><span>${trend.total_analyses ?? 0}</span></div>
+        <div class="score-row"><span class="score-row-label">Improving pages</span><span style="color:#4ade80">${trend.pages_improving ?? 0}</span></div>
+      </div>
+    </div>`;
+}
+
+// ── Sparkline ─────────────────────────────────────────────────────────────────
+function renderSparkline(trend) {
+  const wrap = document.getElementById('sparkline-wrap');
+  const deltaEl = document.getElementById('trend-delta');
+  const allPages = trend.pages ?? [];
+  const allScores = allPages.flatMap(p => (p.scores ?? []).map(s => s.score));
+  if (allScores.length < 2) {
+    wrap.innerHTML = '<div class="empty"><div class="icon">📈</div>Need 2+ analyses to show trend.</div>';
+    deltaEl.textContent = '';
+    return;
+  }
+  const min = Math.min(...allScores);
+  const max = Math.max(...allScores);
+  const range = max - min || 1;
+  const W = 300, H = 50, PAD = 4;
+  const pts = allScores.map((s, i) => {
+    const x = PAD + (i / (allScores.length - 1)) * (W - PAD * 2);
+    const y = H - PAD - ((s - min) / range) * (H - PAD * 2);
+    return `${x},${y}`;
+  }).join(' ');
+  const delta = allScores[allScores.length - 1] - allScores[0];
+  const colour = delta >= 0 ? '#4ade80' : '#f87171';
+  deltaEl.innerHTML = `<span style="color:${colour}">${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</span>`;
+  wrap.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <polyline points="${pts}" fill="none" stroke="${colour}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    ${allScores.map((s, i) => {
+      const x = PAD + (i / (allScores.length - 1)) * (W - PAD * 2);
+      const y = H - PAD - ((s - min) / range) * (H - PAD * 2);
+      return `<circle cx="${x}" cy="${y}" r="3" fill="${colour}"/>`;
+    }).join('')}
+  </svg>`;
+}
+
+// ── Recent analyses ───────────────────────────────────────────────────────────
+async function renderRecentAnalyses(projectId, pages) {
+  const el = document.getElementById('recent-analyses');
+  if (!pages.length) { el.innerHTML = '<div class="empty">No pages in project.</div>'; return; }
+  const analyses = [];
+  for (const p of pages) {
+    const res = await fetch(`${API}/pages/${p.id}/analyses`);
+    const list = await res.json();
+    list.forEach(a => analyses.push({ ...a, url: p.url, title: p.title }));
+  }
+  analyses.sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const top = analyses.slice(0, 8);
+  if (!top.length) { el.innerHTML = '<div class="empty">No analyses yet.</div>'; return; }
+  el.innerHTML = top.map(a => {
+    const score = Math.round(a.overall_score);
+    const cls = score >= 80 ? 'score-good' : score >= 60 ? 'score-mid' : 'score-bad';
+    const url = esc(a.url || a.title || `Page ${a.page_id}`);
+    const date = a.created_at.split('T')[0];
+    return `<li class="analysis-item">
+      <div class="analysis-score ${cls}">${score}</div>
+      <div class="analysis-meta">
+        <div class="analysis-url">${url}</div>
+        <div class="analysis-date">${date} <span class="analysis-source">${esc(a.source)}</span></div>
+      </div>
+    </li>`;
+  }).join('');
+}
+
+// ── Achievements ──────────────────────────────────────────────────────────────
+async function loadAchievements(projectId) {
+  try {
+    const res = await fetch(`${API}/projects/${projectId}/achievements`);
+    const data = await res.json();
+    const badges = data.badges ?? [];
+    // update achievements tab
+    renderAchievementsTab(badges, data.earned_count, data.total_badges);
+  } catch (e) { /* non-blocking */ }
+}
+
+function renderAchievementsTab(badges, earned, total) {
+  const el = document.getElementById('achievements-content');
+  el.innerHTML = `
+    <p style="font-size:13px;color:var(--color-muted);margin-bottom:12px">
+      ${earned} of ${total} badges earned
+    </p>
+    <div class="badges-grid">
+      ${badges.map(b => `
+        <div class="badge-chip ${b.earned ? 'earned' : 'locked'}" title="${esc(b.description)}${b.progress ? ' — ' + esc(b.progress) : ''}">
+          <span>${b.icon}</span>
+          <span>${esc(b.name)}</span>
+          ${b.earned ? '<span>✓</span>' : ''}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+// ── Analyze HTML ──────────────────────────────────────────────────────────────
+async function analyzeHTML() {
+  const htmlFile = document.getElementById('html-file-input').files[0];
+  if (!htmlFile) return;
+  const loading = document.getElementById('html-loading');
+  loading.style.display = 'block';
+  const form = new FormData();
+  form.append('html_file', htmlFile);
+  const cssFile = document.getElementById('css-file-input').files[0];
+  if (cssFile) form.append('css_file', cssFile);
+  try {
+    const res = await fetch(`${API}/analyze`, { method: 'POST', body: form });
+    const data = await res.json();
+    loading.style.display = 'none';
+    renderResult('html', data);
+  } catch (e) {
+    loading.style.display = 'none';
+    toast('Analysis failed: ' + e.message, 'error');
+  }
+}
+
+// ── Analyze Screenshot ────────────────────────────────────────────────────────
+async function analyzeScreenshot() {
+  const ssFile = document.getElementById('ss-file-input').files[0];
+  if (!ssFile) return;
+  const loading = document.getElementById('ss-loading');
+  loading.style.display = 'block';
+  const form = new FormData();
+  form.append('screenshot', ssFile);
+  try {
+    const res = await fetch(`${API}/analyze/screenshot`, { method: 'POST', body: form });
+    const data = await res.json();
+    loading.style.display = 'none';
+    renderResult('ss', data);
+  } catch (e) {
+    loading.style.display = 'none';
+    toast('Analysis failed: ' + e.message, 'error');
+  }
+}
+
+// ── Result renderer ───────────────────────────────────────────────────────────
+function renderResult(prefix, data) {
+  const panel = document.getElementById(`${prefix}-result`);
+  const content = document.getElementById(`${prefix}-result-content`);
+  panel.classList.add('visible');
+
+  const score = Math.round(data.overall_score ?? 0);
+  const cls = score >= 80 ? '#4ade80' : score >= 60 ? '#fbbf24' : '#f87171';
+  const issues = (data.issues ?? []).slice(0, 20);
+
+  content.innerHTML = `
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:16px">
+        <span style="font-size:36px;font-weight:700;color:${cls}">${score}</span>
+        <div>
+          <div style="font-size:13px;font-weight:600">UI Quality Score</div>
+          <div style="font-size:12px;color:var(--color-muted)">${data.issue_count ?? 0} issues found</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:8px">TOP ISSUES</div>
+      <ul class="issues-list">
+        ${issues.map(i => `
+          <li class="issue-item">
+            <span class="issue-sev sev-${(i.severity||'').toLowerCase()}">${i.severity ?? ''}</span>
+            <div class="issue-content">
+              <div class="issue-msg">${esc(i.message)}</div>
+              <div class="issue-rec">${esc(i.recommendation)}</div>
+            </div>
+            <span class="issue-gain">+${(i.estimated_gain ?? 0).toFixed(1)}</span>
+          </li>`).join('')}
+      </ul>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-secondary btn-sm" onclick="copyText(${JSON.stringify(data.claude_prompt||'')})">📋 Copy Claude Prompt</button>
+      <button class="btn btn-secondary btn-sm" onclick="copyText(${JSON.stringify(data.css_snippet||'')})">📋 Copy CSS</button>
+      <button class="btn btn-secondary btn-sm" onclick="copyText(${JSON.stringify(data.design_tokens||'')})">📋 Copy Design Tokens</button>
+    </div>`;
+
+  // refresh overview with this result if a project is selected
+  if (activeProject) loadProjectData(activeProject.id);
+  toast(`Score: ${score}/100 — ${data.issue_count} issues found`, score >= 70 ? 'success' : 'error');
+}
+
+// ── New Project ───────────────────────────────────────────────────────────────
+function showNewProjectModal() {
+  const m = document.getElementById('new-project-modal');
+  m.style.display = 'flex';
+  document.getElementById('new-project-name').focus();
+}
+function hideNewProjectModal() {
+  document.getElementById('new-project-modal').style.display = 'none';
+  document.getElementById('new-project-name').value = '';
+  document.getElementById('new-project-desc').value = '';
+}
+async function createProject() {
+  const name = document.getElementById('new-project-name').value.trim();
+  if (!name) { toast('Project name is required.', 'error'); return; }
+  const desc = document.getElementById('new-project-desc').value.trim();
+  try {
+    const res = await fetch(`${API}/projects`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, description: desc }),
+    });
+    if (!res.ok) { const e = await res.json(); toast(e.detail ?? 'Error', 'error'); return; }
+    hideNewProjectModal();
+    await loadProjects();
+    toast(`Project "${name}" created.`, 'success');
+  } catch (e) { toast('Could not create project.', 'error'); }
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${id}`));
+}
+function openTab(id) { switchTab(id); }
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function toast(msg, type = '') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); toast('Copied to clipboard!', 'success'); }
+  catch { toast('Could not copy.', 'error'); }
+}
+
+// ── Keyboard: close modal on Escape ──────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideNewProjectModal();
+});
+
+init();
+</script>
+</body>
+</html>
