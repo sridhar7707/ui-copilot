@@ -1,5 +1,6 @@
 """
 Module 1 — Project Management API routes.
+Module 17 — UI Trend Analysis routes.
 
 POST /api/v1/projects           — create project
 GET  /api/v1/projects           — list all projects
@@ -8,8 +9,11 @@ DELETE /api/v1/projects/{id}    — delete project
 
 POST /api/v1/projects/{id}/pages        — add page to project
 GET  /api/v1/projects/{id}/pages        — list pages in project
+GET  /api/v1/projects/{id}/trend        — score-over-time across all pages
 
+GET  /api/v1/pages/{id}                 — get page
 GET  /api/v1/pages/{id}/analyses        — list analyses for a page
+GET  /api/v1/pages/{id}/trend           — score-over-time for one page
 """
 from __future__ import annotations
 
@@ -17,6 +21,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from backend.repositories import analysis_repo, page_repo, project_repo
+from backend.services import trend_service
 
 router = APIRouter(tags=["projects"])
 
@@ -96,3 +101,36 @@ async def list_analyses(page_id: int) -> list[dict]:
     if not page:
         raise HTTPException(status_code=404, detail="Page not found.")
     return await analysis_repo.list_for_page(page_id)
+
+
+# ── trend (Module 17) ─────────────────────────────────────────────────────────
+
+@router.get("/pages/{page_id}/trend")
+async def page_trend(page_id: int) -> dict:
+    """Score-over-time for a single page."""
+    page = await page_repo.get(page_id)
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found.")
+    analyses = await analysis_repo.list_for_page(page_id)
+    return trend_service.page_trend(analyses)
+
+
+@router.get("/projects/{project_id}/trend")
+async def project_trend(project_id: int) -> dict:
+    """Aggregated score-over-time across all pages in a project."""
+    project = await project_repo.get(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+    pages = await page_repo.list_for_project(project_id)
+    page_trends = []
+    for p in pages:
+        analyses = await analysis_repo.list_for_page(p["id"])
+        page_trends.append(trend_service.page_trend(analyses))
+    return {
+        "project": project,
+        **trend_service.project_trend(page_trends),
+        "pages": [
+            {"page_id": pages[i]["id"], "url": pages[i]["url"], **page_trends[i]}
+            for i in range(len(pages))
+        ],
+    }
