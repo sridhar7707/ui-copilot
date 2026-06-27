@@ -1,0 +1,24 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# OpenCV headless needs these system libs
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# HuggingFace Spaces persistent storage mounts at /data
+ENV DB_PATH=/data/uicopilot.db
+
+EXPOSE 7860
+
+CMD ["uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "7860"]

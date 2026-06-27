@@ -9,13 +9,14 @@ Schema:
 """
 from __future__ import annotations
 
+import os
 import pathlib
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 import aiosqlite
 
-_DEFAULT_PATH = pathlib.Path("data/uicopilot.db")
+_DEFAULT_PATH = pathlib.Path(os.environ.get("DB_PATH", "data/uicopilot.db"))
 
 DDL = """
 CREATE TABLE IF NOT EXISTS projects (

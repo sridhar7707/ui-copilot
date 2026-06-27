@@ -1,3 +1,14 @@
+---
+title: UICopilot
+emoji: 🎨
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+---
+
 # UICopilot
 
 **AI UI/UX Engineering Platform** — analyze, score, and improve the visual quality of your application.
