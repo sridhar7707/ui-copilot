@@ -21,7 +21,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from backend.repositories import analysis_repo, page_repo, project_repo
-from backend.services import consistency_service, trend_service
+from backend.services import achievement_service, consistency_service, trend_service
 
 router = APIRouter(tags=["projects"])
 
@@ -149,4 +149,51 @@ async def project_consistency(project_id: int) -> dict:
     return {
         "project_id": project_id,
         **consistency_service.build_report(pages, latest_analyses),
+    }
+
+
+# ── achievements (Module 18) ──────────────────────────────────────────────────
+
+@router.get("/projects/{project_id}/achievements")
+async def project_achievements(project_id: int) -> dict:
+    """Badges and gamification status for a project."""
+    project = await project_repo.get(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+
+    pages = await page_repo.list_for_project(project_id)
+
+    # Collect all analysis scores (oldest first) and the latest result_json
+    all_scores: list[float] = []
+    total_analyses = 0
+    latest_result_json = None
+
+    for p in pages:
+        page_analyses = await analysis_repo.list_for_page(p["id"])
+        total_analyses += len(page_analyses)
+        sorted_a = sorted(page_analyses, key=lambda a: a["created_at"])
+        all_scores.extend(a["overall_score"] for a in sorted_a)
+
+    if pages:
+        latest = await analysis_repo.latest_for_page(pages[0]["id"])
+        if latest:
+            latest_result_json = latest.get("result_json")
+
+    # Consistency level (reuse consistency service)
+    latest_analyses = [await analysis_repo.latest_for_page(p["id"]) for p in pages]
+    consistency_report = consistency_service.build_report(pages, latest_analyses)
+    consistency_level = consistency_report.get("consistency_level")
+
+    all_scores_sorted = sorted(all_scores)
+    badges = achievement_service.evaluate(
+        total_analyses=total_analyses,
+        latest_result_json=latest_result_json,
+        all_scores=all_scores_sorted,
+        consistency_level=consistency_level,
+    )
+    return {
+        "project_id": project_id,
+        "total_badges": len(badges),
+        "earned_count": sum(1 for b in badges if b["earned"]),
+        "badges": badges,
     }
