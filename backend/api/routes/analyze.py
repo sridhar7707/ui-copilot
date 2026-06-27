@@ -9,6 +9,7 @@ from backend.models.issue import Issue
 from backend.services import (
     accessibility_service,
     css_generator,
+    html_improvements,
     prompt_generator,
     scoring_engine,
 )
@@ -92,4 +93,5 @@ async def analyze_page(
         "accessibility": accessibility_service.report_to_dict(a11y_report),
         "claude_prompt": prompt_generator.generate(result),
         "css_snippet": css_generator.generate(result),
+        "html_improvements": html_improvements.generate(result),
     }
