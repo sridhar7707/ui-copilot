@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from backend.analyzers import design_system_analyzer
+from backend.analyzers import dashboard_analyzer, design_system_analyzer
 from backend.models.analysis import AnalysisResult, CategoryScore, ParsedPage
 from backend.models.issue import Category, Issue
 from backend.rules import (
@@ -25,6 +25,7 @@ _RULE_MODULES = [
     chart_rules,
     dashboard_rules,
     design_system_analyzer,
+    dashboard_analyzer,
 ]
 
 
