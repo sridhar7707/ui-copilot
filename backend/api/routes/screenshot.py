@@ -10,6 +10,7 @@ from backend.services import (
     html_improvements,
     prompt_generator,
     scoring_engine,
+    token_generator,
 )
 
 router = APIRouter()
@@ -94,5 +95,6 @@ async def analyze_screenshot(screenshot: UploadFile = File(...)):
         "claude_prompt": prompt_generator.generate(result),
         "css_snippet": css_generator.generate(result),
         "html_improvements": html_improvements.generate(result),
+        "design_tokens": token_generator.generate(result),
         "analyzed_by": "screenshot",
     }
