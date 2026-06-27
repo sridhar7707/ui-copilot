@@ -11,10 +11,19 @@ from backend.db.schema import _DEFAULT_PATH, get_db
 from backend.models.analysis import AnalysisResult
 
 
-async def save(page_id: int, result: AnalysisResult, source: str = "html",
-               db_path: pathlib.Path | None = None) -> dict:
-    """Persist an AnalysisResult and return the stored row."""
-    result_json = _serialise(result)
+async def save(
+    page_id: int,
+    result: AnalysisResult,
+    source: str = "html",
+    parsed_page: Optional[dict] = None,
+    db_path: pathlib.Path | None = None,
+) -> dict:
+    """Persist an AnalysisResult and return the stored row.
+
+    Pass ``parsed_page`` to include a component snapshot in the stored JSON
+    (required by Module 20 — Component Library).
+    """
+    result_json = _serialise(result, parsed_page)
     async with get_db(db_path or _DEFAULT_PATH) as db:
         cur = await db.execute(
             "INSERT INTO analyses (page_id, overall_score, result_json, source) "
@@ -62,8 +71,10 @@ async def latest_for_page(page_id: int, db_path: pathlib.Path | None = None) -> 
         return dict(row) if row else None
 
 
-def _serialise(result: AnalysisResult) -> str:
-    return json.dumps({
+# ── serialisation ─────────────────────────────────────────────────────────────
+
+def _serialise(result: AnalysisResult, parsed_page: Optional[dict] = None) -> str:
+    data: dict = {
         "overall_score": result.overall_score,
         "issues": [
             {
@@ -75,4 +86,44 @@ def _serialise(result: AnalysisResult) -> str:
             }
             for i in result.issues
         ],
-    })
+    }
+    if parsed_page is not None:
+        data["components"] = _component_snapshot(parsed_page)
+    return json.dumps(data)
+
+
+def _component_snapshot(parsed_page: dict) -> dict:
+    """Compact component data from a parsed page, capped to avoid bloat."""
+    _btn_keys = {
+        "background_color", "text_color", "border_radius_px",
+        "padding_top_px", "padding_bottom_px", "font_size_px", "height_px",
+    }
+    _card_keys = {"padding_px", "border_radius_px", "background_color", "width_px"}
+    _input_keys = {"border_radius_px", "padding_px", "background_color"}
+
+    return {
+        "buttons": [
+            {k: v for k, v in b.items() if k in _btn_keys}
+            for b in parsed_page.get("buttons", [])[:20]
+        ],
+        "cards": [
+            {k: v for k, v in c.items() if k in _card_keys}
+            for c in parsed_page.get("cards", [])[:20]
+        ],
+        "inputs": [
+            {k: v for k, v in inp.items() if k in _input_keys}
+            for inp in parsed_page.get("inputs", [])[:20]
+        ],
+        "tables": [
+            {
+                "column_count": t.get("column_count"),
+                "row_count": t.get("row_count"),
+                "has_header": t.get("has_header"),
+            }
+            for t in parsed_page.get("tables", [])[:10]
+        ],
+        "fonts": parsed_page.get("fonts", [])[:10],
+        "text_color_pairs": parsed_page.get("text_color_pairs", [])[:20],
+        "spacing_values_px": parsed_page.get("spacing_values_px", [])[:30],
+        "body_font_size_px": parsed_page.get("body_font_size_px"),
+    }

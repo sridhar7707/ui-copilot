@@ -6,6 +6,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from backend.analyzers.html_analyzer import parse
 from backend.models.issue import Issue
+from backend.repositories import analysis_repo, page_repo
 from backend.services import (
     accessibility_service,
     css_generator,
@@ -96,4 +97,46 @@ async def analyze_page(
         "css_snippet": css_generator.generate(result),
         "html_improvements": html_improvements.generate(result),
         "design_tokens": token_generator.generate(result),
+    }
+
+
+@router.post("/pages/{page_id}/analyze", status_code=201, tags=["projects"])
+async def analyze_and_save(
+    page_id: int,
+    html_file: UploadFile = File(..., description="HTML file to analyze and save"),
+    css_file: Optional[UploadFile] = File(None, description="External CSS (optional)"),
+) -> dict:
+    """
+    Parse HTML, score it, and persist the result linked to a project page.
+
+    Unlike POST /analyze (stateless), this endpoint stores the result so it
+    contributes to trends, consistency checks, achievements, and the component
+    library (Module 20).
+    """
+    page = await page_repo.get(page_id)
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found.")
+
+    try:
+        html = (await html_file.read()).decode("utf-8", errors="replace")
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Could not read HTML: {exc}")
+
+    css = ""
+    if css_file:
+        try:
+            css = (await css_file.read()).decode("utf-8", errors="replace")
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"Could not read CSS: {exc}")
+
+    parsed = parse(html, css)
+    result = scoring_engine.analyze(parsed)
+    saved = await analysis_repo.save(page_id, result, source="html", parsed_page=parsed)
+
+    return {
+        "analysis_id": saved["id"],
+        "page_id": page_id,
+        "overall_score": result.overall_score,
+        "issue_count": len(result.issues),
+        "created_at": saved["created_at"],
     }

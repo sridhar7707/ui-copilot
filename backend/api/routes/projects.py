@@ -30,6 +30,7 @@ from backend.repositories import analysis_repo, page_repo, project_repo
 from backend.services import (
     achievement_service,
     before_after_service,
+    component_service,
     consistency_service,
     trend_service,
 )
@@ -161,6 +162,25 @@ async def project_consistency(project_id: int) -> dict:
     return {
         "project_id": project_id,
         **consistency_service.build_report(pages, latest_analyses),
+    }
+
+
+# ── component library (Module 20) ────────────────────────────────────────────
+
+@router.get("/projects/{project_id}/component-library")
+async def component_library(project_id: int) -> dict:
+    """Project-level component library aggregated from all page analyses."""
+    project = await project_repo.get(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+    pages = await page_repo.list_for_project(project_id)
+    latest = [await analysis_repo.latest_for_page(p["id"]) for p in pages]
+    analysis_dicts = [
+        json.loads(a["result_json"]) for a in latest if a
+    ]
+    return {
+        "project_id": project_id,
+        **component_service.build(analysis_dicts),
     }
 
 

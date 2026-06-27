@@ -472,11 +472,11 @@ Every review is stored, enabling a score-over-time view per project (e.g., Jan 7
 
 Badges such as Typography Master, Dashboard Expert, Accessibility Champion, 90+ Club, Design System Complete. Encourages return visits and steady improvement rather than a single one-off scan.
 
-### Module 19 — Inspiration Gallery
+### Module 19 — Inspiration Gallery ✅ DONE
 
 Browsable categories (Finance Dashboards, CRM, Analytics, AI Apps, Forms, Tables, Admin Panels, Developer Portals, Modern SaaS), each example annotated with *why it works*.
 
-### Module 20 — Component Library
+### Module 20 — Component Library ✅ DONE
 
 Automatically extracts buttons, cards, dialogs, tables, and forms from analyzed pages into a reusable design system for the project.
 
