@@ -6,6 +6,7 @@ from backend.analyzers import screenshot_analyzer
 from backend.models.issue import Issue
 from backend.services import (
     accessibility_service,
+    benchmark_service,
     css_generator,
     html_improvements,
     prompt_generator,
@@ -96,5 +97,6 @@ async def analyze_screenshot(screenshot: UploadFile = File(...)):
         "css_snippet": css_generator.generate(result),
         "html_improvements": html_improvements.generate(result),
         "design_tokens": token_generator.generate(result),
+        "benchmark": benchmark_service.score(image_bytes),
         "analyzed_by": "screenshot",
     }

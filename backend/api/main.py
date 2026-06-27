@@ -1,3 +1,4 @@
+import asyncio
 import pathlib
 
 from fastapi import FastAPI
@@ -7,6 +8,7 @@ from backend.api.routes.analyze import router as analyze_router
 from backend.api.routes.projects import router as projects_router
 from backend.api.routes.screenshot import router as screenshot_router
 from backend.db.schema import init_db
+from backend.services import benchmark_service
 
 _FRONTEND = pathlib.Path(__file__).resolve().parents[2] / "frontend"
 _DASHBOARD = _FRONTEND / "index.html"
@@ -26,6 +28,8 @@ app.include_router(projects_router, prefix="/api/v1")
 @app.on_event("startup")
 async def startup() -> None:
     await init_db()
+    loop = asyncio.get_event_loop()
+    loop.run_in_executor(None, benchmark_service.prewarm)
 
 
 @app.get("/health")

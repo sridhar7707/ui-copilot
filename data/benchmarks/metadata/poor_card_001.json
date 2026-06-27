@@ -1,0 +1,19 @@
+{
+  "id": "poor_card_001",
+  "product": "anti-pattern",
+  "category": "cards",
+  "quality": "poor",
+  "quality_score": 32,
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "poor",
+    "contrast": "poor",
+    "padding": 4,
+    "density": "overcrowded"
+  },
+  "notes": [
+    "KPI number same size as body text — no hierarchy",
+    "4px padding — content touches border",
+    "No visual separation between cards"
+  ]
+}

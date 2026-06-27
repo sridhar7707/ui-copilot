@@ -9,9 +9,8 @@ Pillow
 opencv-python-headless
 numpy
 
-# --- Embedding similarity scoring (Module 3b, add when implementing reference-similarity) ---
-# sentence-transformers
-# open_clip_torch
+# Embedding similarity scoring (Module 3b — CLIP via sentence-transformers)
+sentence-transformers
 
 # --- Database (add when implementing repositories) ---
 aiosqlite

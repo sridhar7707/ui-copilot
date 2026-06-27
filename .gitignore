@@ -58,5 +58,12 @@ node_modules/
 dist/
 .parcel-cache/
 
+# Benchmark library — metadata JSONs and .npz are committed; raw images are not
+data/benchmarks/images/**/*.png
+data/benchmarks/images/**/*.jpg
+data/benchmarks/images/**/*.jpeg
+data/benchmarks/images/**/*.webp
+# The generated embeddings file is local-only (large binary, rebuild with embed script)
+data/benchmarks/embeddings.npz
 # Reference images (large; pre-computed embeddings are tracked, raw images are not)
 samples/references/raw/

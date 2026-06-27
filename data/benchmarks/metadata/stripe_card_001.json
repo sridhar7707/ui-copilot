@@ -1,0 +1,21 @@
+{
+  "id": "stripe_card_001",
+  "product": "Stripe Dashboard",
+  "category": "cards",
+  "quality": "excellent",
+  "quality_score": 96,
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "excellent",
+    "contrast": "excellent",
+    "padding": 24,
+    "radius": 8,
+    "shadow": "subtle",
+    "density": "comfortable"
+  },
+  "notes": [
+    "Clear metric hierarchy with large KPI number",
+    "Muted uppercase label at 11px",
+    "Comfortable 24px padding on all sides"
+  ]
+}
