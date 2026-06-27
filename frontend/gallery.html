@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inspiration Gallery — UICopilot</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3348;
+    --text: #e2e8f0;
+    --muted: #8b92a9;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.6; }
+
+  /* ── header ── */
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+  header .logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+  header .logo span { color: var(--accent2); }
+  header nav a { color: var(--muted); text-decoration: none; margin-left: 24px; font-size: 13px; transition: color .15s; }
+  header nav a:hover { color: var(--text); }
+  header nav a.active { color: var(--accent2); }
+
+  /* ── page layout ── */
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+  .page-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .page-sub { color: var(--muted); margin-bottom: 32px; }
+
+  /* ── filter bar ── */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+  .filter-btn { padding: 6px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer; transition: all .15s; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── section headings ── */
+  .section-heading { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 48px 0 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .section-heading:first-of-type { margin-top: 0; }
+
+  /* ── pattern grid ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 8px; }
+
+  /* ── pattern card ── */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .15s, transform .15s; }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card-preview { padding: 20px; background: var(--surface2); border-bottom: 1px solid var(--border); min-height: 140px; display: flex; gap: 12px; flex-direction: column; justify-content: center; }
+  .card-body { padding: 20px; }
+  .card-category { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent2); margin-bottom: 6px; }
+  .card-title { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .card-why { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 14px; }
+  .card-refs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ref-chip { font-size: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; color: var(--muted); }
+
+  /* ── verdict badges ── */
+  .verdict { display: flex; gap: 4px; align-items: center; font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+  .verdict.good { color: var(--green); }
+  .verdict.bad  { color: var(--red); }
+
+  /* ── CSS mockups ── */
+
+  /* KPI card row */
+  .kpi-row { display: flex; gap: 8px; }
+  .kpi { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .kpi .kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .kpi .kpi-value { font-size: 22px; font-weight: 700; margin-top: 2px; }
+  .kpi .kpi-delta { font-size: 11px; color: var(--green); margin-top: 2px; }
+  .kpi.cramped .kpi-value { font-size: 13px; }
+
+  /* Typography scale */
+  .typo-preview .t-h1 { font-size: 26px; font-weight: 700; }
+  .typo-preview .t-h2 { font-size: 18px; font-weight: 600; color: var(--muted); }
+  .typo-preview .t-body { font-size: 13px; color: var(--muted); }
+  .typo-preview.flat .t-h1 { font-size: 16px; }
+  .typo-preview.flat .t-h2 { font-size: 15px; }
+
+  /* Button consistency */
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .btn { border: none; border-radius: 6px; padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: default; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+  .btn-sm { padding: 4px 10px; font-size: 11px; background: #334155; color: var(--muted); border-radius: 3px; }
+  .btn-pill { border-radius: 999px; }
+  .btn-danger { background: var(--red); color: #fff; }
+
+  /* Form layout */
+  .form-preview { display: flex; flex-direction: column; gap: 10px; }
+  .form-row { display: flex; gap: 8px; }
+  .field { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 11px; font-weight: 600; color: var(--muted); }
+  .field input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: var(--text); font-size: 13px; outline: none; }
+  .field input:focus { border-color: var(--accent); }
+  .form-preview.side-by-side .form-row { flex-direction: row; }
+  .form-preview.single-col .form-row { flex-direction: column; }
+
+  /* Table */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .tbl th { text-align: left; padding: 7px 10px; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 700; }
+  .tbl td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
+  .tbl.dense td { padding: 3px 6px; font-size: 11px; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+  .badge-green { background: #14532d; color: #4ade80; }
+  .badge-yellow { background: #451a03; color: #fbbf24; }
+
+  /* Spacing demo */
+  .spacing-demo { display: flex; flex-direction: column; gap: 4px; }
+  .spacing-demo .row { background: var(--accent); opacity: .7; border-radius: 4px; height: 10px; }
+  .spacing-demo.consistent .row { margin-bottom: 8px; }
+  .spacing-demo.inconsistent .row:nth-child(1) { margin-bottom: 3px; }
+  .spacing-demo.inconsistent .row:nth-child(2) { margin-bottom: 15px; }
+  .spacing-demo.inconsistent .row:nth-child(3) { margin-bottom: 6px; }
+
+  /* Nav sidebar */
+  .nav-preview { display: flex; flex-direction: column; gap: 2px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-radius: 6px; font-size: 12px; color: var(--muted); }
+  .nav-item.active { background: var(--surface); color: var(--text); font-weight: 600; }
+  .nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* Mobile touch target */
+  .touch-demo { display: flex; flex-direction: column; gap: 8px; }
+  .touch-btn { border: none; border-radius: 8px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 600; cursor: default; text-align: center; }
+  .touch-btn.large { height: 44px; line-height: 44px; }
+  .touch-btn.small { height: 24px; line-height: 24px; font-size: 11px; background: #334155; color: var(--muted); }
+  .touch-label { font-size: 10px; color: var(--muted); }
+
+  /* Card shadow depth */
+  .depth-demo { display: flex; gap: 12px; align-items: flex-end; }
+  .depth-card { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 11px; color: var(--muted); }
+  .depth-card.elevated { box-shadow: 0 4px 12px rgba(0,0,0,.4); border-color: transparent; }
+  .depth-card.flat { box-shadow: none; }
+
+  /* Color contrast demo */
+  .contrast-demo { display: flex; gap: 8px; }
+  .contrast-box { flex: 1; border-radius: 6px; padding: 10px; font-size: 13px; font-weight: 600; text-align: center; }
+  .contrast-pass { background: #1e3a5f; color: #93c5fd; }
+  .contrast-fail { background: #1e3a5f; color: #1d4ed8; }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 16px; }
+  .empty-state .empty-icon { font-size: 28px; margin-bottom: 8px; }
+  .empty-state .empty-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .empty-state .empty-sub { font-size: 12px; color: var(--muted); }
+  .empty-state.bad .empty-title { font-size: 11px; color: var(--muted); }
+
+  /* Chart spacing */
+  .chart-demo { display: flex; align-items: flex-end; gap: 6px; height: 70px; padding: 0 4px; }
+  .chart-bar { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; opacity: .8; }
+  .chart-demo.crowded { gap: 1px; }
+  .chart-demo.crowded .chart-bar { border-radius: 2px 2px 0 0; }
+  .chart-label-row { display: flex; gap: 6px; margin-top: 4px; }
+  .chart-label { flex: 1; text-align: center; font-size: 9px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">UI<span>Copilot</span></a>
+  <nav>
+    <a href="/">Dashboard</a>
+    <a href="/gallery" class="active">Gallery</a>
+    <a href="/docs" target="_blank">API</a>
+  </nav>
+</header>
+
+<div class="page">
+  <div class="page-title">Inspiration Gallery</div>
+  <div class="page-sub">Design patterns from the best products — annotated with why they work.</div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filter('all', this)">All</button>
+    <button class="filter-btn" onclick="filter('hierarchy', this)">Visual Hierarchy</button>
+    <button class="filter-btn" onclick="filter('typography', this)">Typography</button>
+    <button class="filter-btn" onclick="filter('spacing', this)">Spacing</button>
+    <button class="filter-btn" onclick="filter('components', this)">Components</button>
+    <button class="filter-btn" onclick="filter('accessibility', this)">Accessibility</button>
+    <button class="filter-btn" onclick="filter('forms', this)">Forms</button>
+    <button class="filter-btn" onclick="filter('mobile', this)">Mobile</button>
+  </div>
+
+  <!-- ── Visual Hierarchy ─────────────────────────────────────── -->
+  <div class="section-heading" data-cat="hierarchy">Visual Hierarchy</div>
+  <div class="grid">
+
+    <div class="card" data-cat="hierarchy">
+      <div class="card-preview">
+        <div class="verdict good">✓ Strong KPI hierarchy</div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-label">Revenue</div><div class="kpi-value">$84k</div><div class="kpi-delta">↑ 12%</div></div>
+          <div class="kpi"><div class="kpi-label">Users</div><div class="kpi-value">4,291</div><div class="kpi-delta">↑ 8%</div></div>
+        </div>
+        <div class="verdict bad">✗ Flat — numbers invisible at a glance</div>
+        <div class="kpi-row">
+          <div class="kpi cramped"><div class="kpi-label">Revenue</div><div class="kpi-value">$84k</div></div>
+          <div class="kpi cramped"><div class="kpi-label">Users</div><div class="kpi-value">4,291</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Visual Hierarchy</div>
+        <div class="card-title">KPI Numbers Need Visual Weight</div>
+        <div class="card-why">KPI numbers exist to be read in under a second. If the number is the same size as body text, the card fails its purpose. Use 24–40px bold text for the primary metric; the label sits at 11px muted above it.</div>
+        <div class="card-refs"><span class="ref-chip">Stripe</span><span class="ref-chip">Baremetrics</span><span class="ref-chip">ChartMogul</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="hierarchy">
+      <div class="card-preview">
+        <div class="verdict good">✓ Clear heading scale</div>
+        <div class="typo-preview">
+          <div class="t-h1">Dashboard</div>
+          <div class="t-h2">Recent Activity</div>
+          <div class="t-body">Last updated 2 minutes ago</div>
+        </div>
+        <div class="verdict bad">✗ Flat — hierarchy collapses</div>
+        <div class="typo-preview flat">
+          <div class="t-h1">Dashboard</div>
+          <div class="t-h2">Recent Activity</div>
+          <div class="t-body">Last updated 2 minutes ago</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Visual Hierarchy</div>
+        <div class="card-title">Heading Scale: Minimum 1.3× Step</div>
+        <div class="card-why">Effective dashboards use at least a 1.3× size step between heading levels. H1 at 28px, H2 at 20px, body at 14px creates a clear scanning ladder. When all text is 14–16px, the eye has no anchor and must read everything to find what matters.</div>
+        <div class="card-refs"><span class="ref-chip">Linear</span><span class="ref-chip">Notion</span><span class="ref-chip">Material Design</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="hierarchy">
+      <div class="card-preview">
+        <div class="verdict good">✓ Section headings guide the eye</div>
+        <div class="nav-preview">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;margin-top:4px;">Overview</div>
+          <div class="nav-item active"><div class="dot"></div>Revenue</div>
+          <div class="nav-item"><div class="dot"></div>Users</div>
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;margin-top:8px;">Activity</div>
+          <div class="nav-item"><div class="dot"></div>Recent Logins</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Visual Hierarchy</div>
+        <div class="card-title">Section Headings as Navigation Anchors</div>
+        <div class="card-why">Dashboards with 4+ widgets need H2 section headings to break content into scannable zones. Without them, every widget competes equally — users scan the whole page rather than jumping to what they need. Section labels reduce time-to-insight on repeat visits.</div>
+        <div class="card-refs"><span class="ref-chip">GitHub</span><span class="ref-chip">Linear</span><span class="ref-chip">GOV.UK</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Typography ────────────────────────────────────────────── -->
+  <div class="section-heading" data-cat="typography">Typography</div>
+  <div class="grid">
+
+    <div class="card" data-cat="typography">
+      <div class="card-preview">
+        <div class="verdict good">✓ 16px body, comfortable line height</div>
+        <div style="font-size:16px;line-height:1.6;color:var(--text)">The quick brown fox jumps over the lazy dog. Good typography is invisible — it gets out of the way of content.</div>
+        <div class="verdict bad" style="margin-top:10px">✗ 11px body — forces squinting</div>
+        <div style="font-size:11px;line-height:1.3;color:var(--muted)">The quick brown fox jumps over the lazy dog. Good typography is invisible — it gets out of the way of content.</div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Typography</div>
+        <div class="card-title">Body Font: 14–16px Minimum</div>
+        <div class="card-why">Sub-14px body text forces users to zoom or squint. iOS Safari automatically inflates small text, which breaks your layout. Google's mobile-friendliness test flags it directly. Start at 16px for body, drop to 14px minimum for secondary text, 11px only for labels and captions.</div>
+        <div class="card-refs"><span class="ref-chip">WCAG 1.4.4</span><span class="ref-chip">Google</span><span class="ref-chip">Apple HIG</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="typography">
+      <div class="card-preview">
+        <div class="verdict good">✓ Consistent font stack — 2 weights</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:20px;font-weight:700">Page Title</div>
+          <div style="font-size:14px;font-weight:600;color:var(--muted)">Section Label</div>
+          <div style="font-size:14px;font-weight:400">Body copy reads cleanly.</div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ 4 fonts, 6 weights — visual noise</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:20px;font-weight:900;font-family:serif">Page Title</div>
+          <div style="font-size:13px;font-weight:300;font-style:italic;color:var(--muted)">Section Label</div>
+          <div style="font-size:15px;font-weight:500;font-family:monospace">Body copy</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Typography</div>
+        <div class="card-title">One Typeface, Two Weights</div>
+        <div class="card-why">The fastest way to make a UI look professional is to commit to one system font and two weights (400 for body, 600–700 for headings). Every additional typeface or weight decision is an opportunity for inconsistency. System fonts (SF Pro, Segoe UI, -apple-system) render crisply at every size and load instantly.</div>
+        <div class="card-refs"><span class="ref-chip">Stripe</span><span class="ref-chip">Vercel</span><span class="ref-chip">Notion</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="typography">
+      <div class="card-preview">
+        <div class="verdict good">✓ Uppercase labels, 10–11px, muted</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px">Total Revenue</div>
+            <div style="font-size:24px;font-weight:700">$124,500</div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px">Active Users</div>
+            <div style="font-size:24px;font-weight:700">8,214</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Typography</div>
+        <div class="card-title">Data Labels: Uppercase + Letter Spacing</div>
+        <div class="card-why">Metric labels should be visually subordinate to the number they describe. Uppercase + letter-spacing at 10–11px muted creates instant semantic separation: label = context, number = content. This pattern appears in Stripe, Baremetrics, and every well-designed analytics dashboard because it works at a glance.</div>
+        <div class="card-refs"><span class="ref-chip">Stripe</span><span class="ref-chip">Datadog</span><span class="ref-chip">Mixpanel</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Spacing ───────────────────────────────────────────────── -->
+  <div class="section-heading" data-cat="spacing">Spacing</div>
+  <div class="grid">
+
+    <div class="card" data-cat="spacing">
+      <div class="card-preview">
+        <div class="verdict good">✓ 8-point grid — everything aligns</div>
+        <div class="spacing-demo consistent">
+          <div class="row" style="width:100%"></div>
+          <div class="row" style="width:80%"></div>
+          <div class="row" style="width:60%"></div>
+          <div class="row" style="width:90%"></div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ Random gaps — nothing aligns</div>
+        <div class="spacing-demo inconsistent">
+          <div class="row" style="width:100%"></div>
+          <div class="row" style="width:80%"></div>
+          <div class="row" style="width:60%"></div>
+          <div class="row" style="width:90%"></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Spacing</div>
+        <div class="card-title">The 8-Point Grid System</div>
+        <div class="card-why">Every spacing value should be a multiple of 8 (8, 16, 24, 32, 48, 64). This creates natural visual rhythm that makes layouts feel "right" even if users can't say why. Tailwind's default spacing scale, Material Design, and Apple HIG all use 4/8-based grids. Random spacing (13px here, 22px there) is the most common cause of layouts that look "almost professional."</div>
+        <div class="card-refs"><span class="ref-chip">Material Design</span><span class="ref-chip">Tailwind</span><span class="ref-chip">Apple HIG</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spacing">
+      <div class="card-preview">
+        <div class="verdict good">✓ 20–24px card padding — room to breathe</div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px">
+          <div style="font-size:12px;font-weight:700;margin-bottom:12px">Monthly Summary</div>
+          <div style="font-size:24px;font-weight:700;margin-bottom:4px">$42,800</div>
+          <div style="font-size:11px;color:var(--green)">↑ 14% vs last month</div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ 6px padding — cramped</div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px">
+          <div style="font-size:11px;font-weight:700;margin-bottom:3px">Monthly Summary</div>
+          <div style="font-size:16px;font-weight:700">$42,800</div>
+          <div style="font-size:10px;color:var(--green)">↑ 14% vs last month</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Spacing</div>
+        <div class="card-title">Card Padding: 16–24px</div>
+        <div class="card-why">Card content needs breathing room to read as a distinct unit. Below 12px, the border and content fight for the eye. At 20–24px, content has room to sit comfortably. Dense packing signals "lots of data" but reduces comprehension — generous cards signal "here's what matters."</div>
+        <div class="card-refs"><span class="ref-chip">Stripe</span><span class="ref-chip">Linear</span><span class="ref-chip">Vercel</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spacing">
+      <div class="card-preview">
+        <div class="verdict good">✓ Whitespace frames content</div>
+        <div style="display:flex;flex-direction:column;gap:16px;padding:8px 0">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:13px">Item one — clean</div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:13px">Item two — clear</div>
+        </div>
+        <div class="verdict bad" style="margin-top:4px">✗ No gaps — list reads as a block</div>
+        <div style="display:flex;flex-direction:column;gap:1px">
+          <div style="background:var(--surface2);padding:6px 10px;font-size:11px;border:1px solid var(--border)">Item one</div>
+          <div style="background:var(--surface2);padding:6px 10px;font-size:11px;border:1px solid var(--border)">Item two</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Spacing</div>
+        <div class="card-title">Whitespace Ratio ≥ 20%</div>
+        <div class="card-why">Layouts where content fills ≥80% of the screen feel overwhelming. A whitespace ratio of at least 20% — the fraction of the viewport with no content — signals professional restraint. Whitespace is not wasted space; it's the frame that makes content legible. Cramped UIs signal that design was an afterthought.</div>
+        <div class="card-refs"><span class="ref-chip">Apple</span><span class="ref-chip">Stripe</span><span class="ref-chip">Notion</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Components ────────────────────────────────────────────── -->
+  <div class="section-heading" data-cat="components">Components</div>
+  <div class="grid">
+
+    <div class="card" data-cat="components">
+      <div class="card-preview">
+        <div class="verdict good">✓ One primary style, one secondary</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Save Changes</button>
+          <button class="btn btn-secondary">Cancel</button>
+        </div>
+        <div class="verdict bad" style="margin-top:12px">✗ Six styles — no clear primary action</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Save</button>
+          <button class="btn btn-primary btn-pill">Submit</button>
+          <button class="btn btn-sm">Cancel</button>
+          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-secondary">Back</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Components</div>
+        <div class="card-title">Button Consistency: One Primary Style</div>
+        <div class="card-why">Every button variant is a visual choice that costs user attention. A primary (filled), secondary (outlined/ghost), and destructive (red) pattern covers 95% of use cases. Six different button shapes, sizes, and colors signal no design system — users can't build a mental model of what's clickable and what's important.</div>
+        <div class="card-refs"><span class="ref-chip">Linear</span><span class="ref-chip">GitHub</span><span class="ref-chip">Tailwind UI</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="components">
+      <div class="card-preview">
+        <div class="verdict good">✓ Scannable table — clear headers</div>
+        <table class="tbl">
+          <thead><tr><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Acme Corp</td><td><span class="badge badge-green">Active</span></td><td>$2,400</td></tr>
+            <tr><td>Beta Ltd</td><td><span class="badge badge-yellow">Pending</span></td><td>$800</td></tr>
+          </tbody>
+        </table>
+        <div class="verdict bad" style="margin-top:10px">✗ Dense — no header contrast</div>
+        <table class="tbl dense">
+          <thead><tr><th style="text-transform:none;font-size:11px;font-weight:400">name</th><th style="text-transform:none;font-size:11px;font-weight:400">status</th><th style="text-transform:none;font-size:11px;font-weight:400">amount</th></tr></thead>
+          <tbody>
+            <tr><td>Acme Corp</td><td>active</td><td>$2,400</td></tr>
+            <tr><td>Beta Ltd</td><td>pending</td><td>$800</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Components</div>
+        <div class="card-title">Table Headers: Uppercase + Muted</div>
+        <div class="card-why">Table column headers exist to orient, not compete with data. Uppercase + letter-spacing at 10–11px muted creates instant semantic separation between "what this column means" and "what's in this column." Scannable tables are the single most common request in enterprise software redesigns.</div>
+        <div class="card-refs"><span class="ref-chip">GitHub</span><span class="ref-chip">Linear</span><span class="ref-chip">Airtable</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="components">
+      <div class="card-preview">
+        <div class="verdict good">✓ Meaningful empty state</div>
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <div class="empty-title">No projects yet</div>
+          <div class="empty-sub">Create your first project to start analyzing your UI.</div>
+          <div style="margin-top:12px"><button class="btn btn-primary" style="font-size:12px;padding:6px 14px">Create Project</button></div>
+        </div>
+        <div class="verdict bad" style="margin-top:4px">✗ No guidance</div>
+        <div class="empty-state bad">
+          <div class="empty-title">No data found.</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Components</div>
+        <div class="card-title">Empty States: Icon + Title + CTA</div>
+        <div class="card-why">Empty states are high-value real estate — they appear when users are most likely to feel lost. A good empty state includes a visual cue (icon or illustration), a friendly title, a brief explanation, and a primary action. "No data found." tells the user nothing about what to do next. Empty states that guide are 3× more likely to convert first-time users.</div>
+        <div class="card-refs"><span class="ref-chip">Stripe</span><span class="ref-chip">Notion</span><span class="ref-chip">ClickUp</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="components">
+      <div class="card-preview">
+        <div class="verdict good">✓ Consistent depth — one shadow level</div>
+        <div class="depth-demo">
+          <div class="depth-card flat">Flat card</div>
+          <div class="depth-card elevated">Elevated card</div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ Arbitrary shadows — no system</div>
+        <div class="depth-demo">
+          <div class="depth-card" style="box-shadow:0 1px 2px rgba(0,0,0,.5)">Card A</div>
+          <div class="depth-card" style="box-shadow:0 8px 30px rgba(99,102,241,.4)">Card B</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Components</div>
+        <div class="card-title">Shadow Scale: 2–3 Levels Maximum</div>
+        <div class="card-why">Shadows communicate z-axis depth. A design system should define 2–3 shadow levels (flat → slight → elevated) and use them consistently. Arbitrary shadow values per card signal that each component was styled independently — shadows become visual noise rather than semantic information. Linear, Vercel, and Stripe all use a single subtle shadow for cards.</div>
+        <div class="card-refs"><span class="ref-chip">Vercel</span><span class="ref-chip">Linear</span><span class="ref-chip">Radix UI</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Accessibility ──────────────────────────────────────────── -->
+  <div class="section-heading" data-cat="accessibility">Accessibility</div>
+  <div class="grid">
+
+    <div class="card" data-cat="accessibility">
+      <div class="card-preview">
+        <div class="verdict good">✓ WCAG AA pass — 4.5:1 ratio</div>
+        <div class="contrast-demo">
+          <div class="contrast-box contrast-pass">Text passes AA</div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ Fail — blue-on-blue, 1.4:1</div>
+        <div class="contrast-demo">
+          <div class="contrast-box contrast-fail">Hard to read</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Accessibility</div>
+        <div class="card-title">WCAG AA Contrast: 4.5:1 Minimum</div>
+        <div class="card-why">WCAG 2.1 Level AA requires 4.5:1 contrast for normal text and 3:1 for large text (18px+). Low-contrast text looks stylish in mockups and unreadable in production — especially for users with vision impairments or on bright displays. Contrast failures are the most common WCAG issue and the easiest to fix: adjust lightness, not hue.</div>
+        <div class="card-refs"><span class="ref-chip">WCAG 2.1</span><span class="ref-chip">WebAIM</span><span class="ref-chip">axe-core</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accessibility">
+      <div class="card-preview">
+        <div class="verdict good">✓ Active state visible without color</div>
+        <div class="nav-preview">
+          <div class="nav-item active" style="border-left:3px solid var(--accent);padding-left:9px"><div class="dot"></div>Dashboard <span style="font-size:10px;color:var(--accent2);margin-left:auto">◀</span></div>
+          <div class="nav-item"><div class="dot"></div>Projects</div>
+          <div class="nav-item"><div class="dot"></div>Analytics</div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ Color only — invisible to colorblind users</div>
+        <div class="nav-preview">
+          <div class="nav-item" style="color:#6366f1"><div class="dot"></div>Dashboard</div>
+          <div class="nav-item"><div class="dot"></div>Projects</div>
+          <div class="nav-item"><div class="dot"></div>Analytics</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Accessibility</div>
+        <div class="card-title">Never Use Color Alone for State</div>
+        <div class="card-why">8% of men have red-green color blindness. Active/selected states communicated only via color change are invisible to them. Combine color with a shape cue: a border, an underline, a background change, or a bold weight. Navigation active states must be distinguishable by shape, not just color, per WCAG 1.4.1.</div>
+        <div class="card-refs"><span class="ref-chip">WCAG 1.4.1</span><span class="ref-chip">Apple HIG</span><span class="ref-chip">Material Design</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="accessibility">
+      <div class="card-preview">
+        <div class="verdict good">✓ Focus ring always visible</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-primary" style="outline:3px solid #a5b4fc;outline-offset:2px">Focused button</button>
+          <button class="btn btn-secondary">Normal</button>
+        </div>
+        <div class="verdict bad" style="margin-top:12px">✗ outline:none — keyboard users are lost</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-primary" style="outline:none">This is focused</button>
+          <button class="btn btn-secondary">Normal</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Accessibility</div>
+        <div class="card-title">Focus Rings: Never Remove, Only Style</div>
+        <div class="card-why">outline:none on focused elements removes all keyboard navigation cues. Keyboard users — including users who can't use a mouse, power users, and screen reader users — are left with no way to track where they are. WCAG 2.4.7 (Level AA) requires visible focus. Replace the default browser ring with a styled one: outline + offset in your accent color.</div>
+        <div class="card-refs"><span class="ref-chip">WCAG 2.4.7</span><span class="ref-chip">GOV.UK</span><span class="ref-chip">Radix UI</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Forms ─────────────────────────────────────────────────── -->
+  <div class="section-heading" data-cat="forms">Forms</div>
+  <div class="grid">
+
+    <div class="card" data-cat="forms">
+      <div class="card-preview">
+        <div class="verdict good">✓ Single column — clear reading order</div>
+        <div class="form-preview single-col">
+          <div class="form-row"><div class="field"><label>Full name</label><input placeholder="Jane Smith"></div></div>
+          <div class="form-row"><div class="field"><label>Email</label><input placeholder="jane@example.com"></div></div>
+          <div class="form-row"><div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Forms</div>
+        <div class="card-title">Single-Column Forms Complete Faster</div>
+        <div class="card-why">Nielsen Norman Group studies show single-column forms are completed 15.4 seconds faster than multi-column equivalents. Eye-tracking data confirms users scan forms in a single vertical sweep — multi-column layouts interrupt that flow with horizontal jumps. Use multi-column only for tightly related short fields (City + State + ZIP).</div>
+        <div class="card-refs"><span class="ref-chip">Nielsen Norman</span><span class="ref-chip">Stripe</span><span class="ref-chip">GitHub</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="forms">
+      <div class="card-preview">
+        <div class="verdict good">✓ Label above field — always visible</div>
+        <div class="form-preview single-col">
+          <div class="form-row">
+            <div class="field"><label>Email address</label><input placeholder="you@example.com"></div>
+          </div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ Placeholder only — disappears on type</div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:9px 12px;font-size:13px;color:var(--muted)">Email address</div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Forms</div>
+        <div class="card-title">Labels Above Fields, Never Placeholders-Only</div>
+        <div class="card-why">Placeholder text disappears when the user starts typing — making it impossible to check what a field expects. This is especially harmful on long forms where users tab between fields or need to review entries. WCAG 3.3.2 requires visible labels. Use placeholder text only for examples or hints, never as a substitute for a label.</div>
+        <div class="card-refs"><span class="ref-chip">WCAG 3.3.2</span><span class="ref-chip">GOV.UK</span><span class="ref-chip">Stripe</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Mobile ─────────────────────────────────────────────────── -->
+  <div class="section-heading" data-cat="mobile">Mobile</div>
+  <div class="grid">
+
+    <div class="card" data-cat="mobile">
+      <div class="card-preview">
+        <div class="verdict good">✓ 44px touch targets — Apple/WCAG minimum</div>
+        <div class="touch-demo">
+          <div class="touch-label">Primary action</div>
+          <button class="touch-btn large">Save Changes</button>
+          <div class="touch-label">Secondary action</div>
+          <button class="touch-btn large" style="background:var(--surface);color:var(--text);border:1px solid var(--border)">Cancel</button>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ 24px — miss-taps guaranteed</div>
+        <div class="touch-demo">
+          <button class="touch-btn small">Save Changes</button>
+          <button class="touch-btn small">Cancel</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Mobile</div>
+        <div class="card-title">Touch Targets: 44×44px Minimum</div>
+        <div class="card-why">The average adult fingertip covers 44–57px. Targets smaller than 44px cause tap errors — users hit adjacent elements or miss entirely. Apple HIG mandates 44×44pt. WCAG 2.5.8 (Level AA) requires 24px with adequate spacing. Material Design recommends 48px for primary actions. Use padding to reach target size rather than increasing font size.</div>
+        <div class="card-refs"><span class="ref-chip">Apple HIG</span><span class="ref-chip">WCAG 2.5.8</span><span class="ref-chip">Material Design</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="mobile">
+      <div class="card-preview">
+        <div class="verdict good">✓ Viewport meta — renders at device width</div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;font-family:monospace;font-size:11px;color:#a5b4fc">
+          &lt;meta name="viewport"<br>&nbsp;&nbsp;content="width=device-width,<br>&nbsp;&nbsp;initial-scale=1.0"&gt;
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ No viewport meta — zoomed out on phones</div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Page renders at 980px, then scaled down:</div>
+          <div style="transform:scale(0.4);transform-origin:left top;width:250%;background:var(--surface2);border-radius:4px;padding:8px;font-size:9px;white-space:nowrap">Full desktop layout squeezed into phone screen</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Mobile</div>
+        <div class="card-title">Viewport Meta Tag: Non-Negotiable</div>
+        <div class="card-why">Without the viewport meta tag, mobile browsers render pages at ~980px and scale them down — text becomes a blur of 3px characters. It's the #1 mobile usability failure and disqualifies the page from Google's mobile-first index. It takes 30 seconds to fix and has zero downsides. If you remember only one mobile rule, make it this one.</div>
+        <div class="card-refs"><span class="ref-chip">Google Search Central</span><span class="ref-chip">MDN</span><span class="ref-chip">WCAG 1.4.4</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="mobile">
+      <div class="card-preview">
+        <div class="verdict good">✓ Fluid cards — max-width + width:100%</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px">Card stretches to fill container</div>
+          <div style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px">Card stretches to fill container</div>
+        </div>
+        <div class="verdict bad" style="margin-top:10px">✗ Fixed 600px card — overflows phone</div>
+        <div style="overflow:hidden;border:1px dashed var(--red);border-radius:4px;padding:4px">
+          <div style="width:600px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;white-space:nowrap">Fixed 600px card clips on mobile →→→→→</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Mobile</div>
+        <div class="card-title">Fluid Layouts: Replace px Width with max-width</div>
+        <div class="card-why">Fixed-pixel card widths are the root cause of most mobile layout breaks. A 600px card on a 375px phone clips, overlaps, or forces horizontal scroll. Fluid layouts — width: 100%; max-width: Xpx — work across all screen sizes without breakpoints. Use CSS Grid or Flexbox with flex-wrap: wrap to let cards reflow naturally on small screens.</div>
+        <div class="card-refs"><span class="ref-chip">MDN Flexbox</span><span class="ref-chip">CSS Grid</span><span class="ref-chip">Bootstrap</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;padding:48px 0 24px;color:var(--muted);font-size:12px">
+    Gallery patterns are derived from publicly documented design systems and usability research.
+    Reference products are cited for illustrative purposes.
+  </div>
+
+</div>
+
+<script>
+  function filter(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const allCards = document.querySelectorAll('.card');
+    const allSections = document.querySelectorAll('.section-heading');
+
+    if (cat === 'all') {
+      allCards.forEach(c => c.style.display = '');
+      allSections.forEach(s => s.style.display = '');
+      return;
+    }
+
+    allCards.forEach(c => {
+      c.style.display = c.dataset.cat === cat ? '' : 'none';
+    });
+
+    allSections.forEach(s => {
+      s.style.display = s.dataset.cat === cat ? '' : 'none';
+    });
+
+    // Also hide empty grid containers
+    document.querySelectorAll('.grid').forEach(g => {
+      const visible = [...g.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+      g.style.display = visible ? '' : 'none';
+    });
+  }
+</script>
+
+</body>
+</html>

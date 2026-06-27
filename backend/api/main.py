@@ -8,7 +8,9 @@ from backend.api.routes.projects import router as projects_router
 from backend.api.routes.screenshot import router as screenshot_router
 from backend.db.schema import init_db
 
-_DASHBOARD = pathlib.Path(__file__).resolve().parents[2] / "frontend" / "index.html"
+_FRONTEND = pathlib.Path(__file__).resolve().parents[2] / "frontend"
+_DASHBOARD = _FRONTEND / "index.html"
+_GALLERY = _FRONTEND / "gallery.html"
 
 app = FastAPI(
     title="UICopilot",
@@ -33,5 +35,9 @@ def health() -> dict[str, str]:
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def dashboard() -> str:
-    """Serve the Developer Dashboard (Module 22)."""
     return _DASHBOARD.read_text(encoding="utf-8")
+
+
+@app.get("/gallery", response_class=HTMLResponse, include_in_schema=False)
+def gallery() -> str:
+    return _GALLERY.read_text(encoding="utf-8")
