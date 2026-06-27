@@ -1,6 +1,7 @@
 """
-Module 1 — Project Management API routes.
+Module 1  — Project Management API routes.
 Module 17 — UI Trend Analysis routes.
+Module 21 — Before/After Preview route.
 
 POST /api/v1/projects           — create project
 GET  /api/v1/projects           — list all projects
@@ -14,15 +15,24 @@ GET  /api/v1/projects/{id}/trend        — score-over-time across all pages
 GET  /api/v1/pages/{id}                 — get page
 GET  /api/v1/pages/{id}/analyses        — list analyses for a page
 GET  /api/v1/pages/{id}/trend           — score-over-time for one page
+
+GET  /api/v1/analyses/{id}/before-after — before/after score preview
 """
 from __future__ import annotations
+
+import json
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from pydantic import BaseModel
 
 from backend.repositories import analysis_repo, page_repo, project_repo
-from backend.services import achievement_service, consistency_service, trend_service
+from backend.services import (
+    achievement_service,
+    before_after_service,
+    consistency_service,
+    trend_service,
+)
 
 router = APIRouter(tags=["projects"])
 
@@ -151,6 +161,21 @@ async def project_consistency(project_id: int) -> dict:
     return {
         "project_id": project_id,
         **consistency_service.build_report(pages, latest_analyses),
+    }
+
+
+# ── before/after preview (Module 21) ─────────────────────────────────────────
+
+@router.get("/analyses/{analysis_id}/before-after")
+async def before_after_preview(analysis_id: int) -> dict:
+    """Before/after score projection for a stored analysis."""
+    analysis = await analysis_repo.get(analysis_id)
+    if not analysis:
+        raise HTTPException(status_code=404, detail="Analysis not found.")
+    result_json = json.loads(analysis["result_json"])
+    return {
+        "analysis_id": analysis_id,
+        **before_after_service.generate(result_json),
     }
 
 

@@ -452,11 +452,11 @@ Generates colors, spacing scale, radius scale, elevation/shadow scale, typograph
 
 Analyzes WCAG conformance, keyboard navigation, contrast ratios, ARIA usage, alt text, focus order, and touch target sizing.
 
-### Module 14 — Dashboard Analyzer
+### Module 14 — Dashboard Analyzer ✅ DONE
 
 Special-cased rules for dashboards: too many cards, poor hierarchy, crowded layouts, weak KPI presentation, bad charts, overly dense tables.
 
-### Module 15 — Mobile Analyzer
+### Module 15 — Mobile Analyzer ✅ DONE
 
 Scores responsive layout, overflow handling, touch target size, mobile navigation patterns, spacing, and font sizing.
 
@@ -480,7 +480,7 @@ Browsable categories (Finance Dashboards, CRM, Analytics, AI Apps, Forms, Tables
 
 Automatically extracts buttons, cards, dialogs, tables, and forms from analyzed pages into a reusable design system for the project.
 
-### Module 21 — Before/After Preview
+### Module 21 — Before/After Preview ✅ DONE
 
 Visual side-by-side: current score vs. projected score after applying recommended fixes, broken down by category delta.
 
