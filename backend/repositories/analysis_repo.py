@@ -52,10 +52,10 @@ async def list_for_page(page_id: int, db_path: pathlib.Path | None = None) -> li
 
 
 async def latest_for_page(page_id: int, db_path: pathlib.Path | None = None) -> Optional[dict]:
-    """Return the most recent analysis for a page."""
+    """Return the most recent analysis for a page, including result_json."""
     async with get_db(db_path or _DEFAULT_PATH) as db:
         row = await (await db.execute(
-            "SELECT id, page_id, overall_score, source, created_at "
+            "SELECT id, page_id, overall_score, result_json, source, created_at "
             "FROM analyses WHERE page_id = ? ORDER BY created_at DESC LIMIT 1",
             (page_id,),
         )).fetchone()

@@ -21,7 +21,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from backend.repositories import analysis_repo, page_repo, project_repo
-from backend.services import trend_service
+from backend.services import consistency_service, trend_service
 
 router = APIRouter(tags=["projects"])
 
@@ -133,4 +133,20 @@ async def project_trend(project_id: int) -> dict:
             {"page_id": pages[i]["id"], "url": pages[i]["url"], **page_trends[i]}
             for i in range(len(pages))
         ],
+    }
+
+
+# ── consistency (Module 16) ───────────────────────────────────────────────────
+
+@router.get("/projects/{project_id}/consistency")
+async def project_consistency(project_id: int) -> dict:
+    """Cross-page consistency report for a project."""
+    project = await project_repo.get(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+    pages = await page_repo.list_for_project(project_id)
+    latest_analyses = [await analysis_repo.latest_for_page(p["id"]) for p in pages]
+    return {
+        "project_id": project_id,
+        **consistency_service.build_report(pages, latest_analyses),
     }
