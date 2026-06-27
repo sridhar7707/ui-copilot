@@ -14,7 +14,7 @@ numpy
 # open_clip_torch
 
 # --- Database (add when implementing repositories) ---
-# aiosqlite
+aiosqlite
 
 # --- Runtime utilities ---
 typing_extensions
@@ -23,5 +23,5 @@ typing_extensions
 pytest
 # ruff
 # mypy
-# pytest-asyncio
+pytest-asyncio
 # httpx
