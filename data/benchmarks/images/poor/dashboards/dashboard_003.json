@@ -1,0 +1,36 @@
+{
+  "id": "dashboard_003",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 35,
+  "product": "AI-generated",
+  "style": "inconsistent",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "high",
+  "components": [
+    "card",
+    "table",
+    "pie_chart",
+    "topbar"
+  ],
+  "attributes": {
+    "spacing": "uneven",
+    "typography": "mixed_fonts",
+    "contrast": "poor",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 8,
+    "radius": 4,
+    "shadow": "heavy",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Multiple unrelated card styles on one screen",
+    "Heavy drop shadows used inconsistently",
+    "Mixed font families across widgets"
+  ]
+}

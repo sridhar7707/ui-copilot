@@ -1,0 +1,35 @@
+{
+  "id": "forms_002",
+  "category": "forms",
+  "quality": "poor",
+  "quality_score": 32,
+  "product": "AI-generated",
+  "style": "no_validation_feedback",
+  "industry": "saas_signup",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "medium",
+  "components": [
+    "form",
+    "input",
+    "button"
+  ],
+  "attributes": {
+    "spacing": "moderate",
+    "typography": "inconsistent",
+    "contrast": "poor",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 8,
+    "radius": 4,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Error states shown only as red border with no message",
+    "Required-field indicators inconsistent across inputs",
+    "Password field has no show/hide toggle"
+  ]
+}

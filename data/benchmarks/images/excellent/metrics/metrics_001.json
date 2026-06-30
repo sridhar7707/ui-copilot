@@ -1,0 +1,34 @@
+{
+  "id": "metrics_001",
+  "category": "metrics",
+  "quality": "excellent",
+  "quality_score": 91,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "kpi_metric",
+    "sparkline"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 12,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Large, bold metric value with clear visual priority",
+    "Trend percentage color-coded and unambiguous",
+    "Comparison period clearly labeled for context"
+  ]
+}

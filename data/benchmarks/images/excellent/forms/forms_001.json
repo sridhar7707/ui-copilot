@@ -1,0 +1,35 @@
+{
+  "id": "forms_001",
+  "category": "forms",
+  "quality": "excellent",
+  "quality_score": 88,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas_login",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "single_column",
+  "complexity": "low",
+  "components": [
+    "form",
+    "input",
+    "button"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Single primary CTA clearly distinguished from secondary links",
+    "Comfortable spacing between label and input",
+    "Dark theme maintains good contrast on input borders"
+  ]
+}

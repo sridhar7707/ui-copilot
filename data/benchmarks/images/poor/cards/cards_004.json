@@ -1,0 +1,33 @@
+{
+  "id": "cards_004",
+  "category": "cards",
+  "quality": "poor",
+  "quality_score": 45,
+  "product": "AI-generated",
+  "style": "flat_no_hierarchy",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card"
+  ],
+  "attributes": {
+    "spacing": "moderate",
+    "typography": "no_hierarchy",
+    "contrast": "medium",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 12,
+    "radius": 4,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Title and value rendered at the same font size",
+    "No clear primary action within the card",
+    "Icon and text alignment is off-center"
+  ]
+}

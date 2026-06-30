@@ -1,0 +1,35 @@
+{
+  "id": "settings_002",
+  "category": "settings",
+  "quality": "poor",
+  "quality_score": 36,
+  "product": "AI-generated",
+  "style": "unclear_grouping",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "tabs",
+  "complexity": "medium",
+  "components": [
+    "form",
+    "toggle",
+    "input"
+  ],
+  "attributes": {
+    "spacing": "uneven",
+    "typography": "mixed_fonts",
+    "contrast": "low",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 8,
+    "radius": 2,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Tab labels don't clearly indicate which is currently selected",
+    "Related settings split across unrelated tabs",
+    "Destructive actions styled the same as routine ones"
+  ]
+}

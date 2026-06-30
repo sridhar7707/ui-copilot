@@ -1,0 +1,34 @@
+{
+  "id": "cards_004",
+  "category": "cards",
+  "quality": "excellent",
+  "quality_score": 89,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card",
+    "sparkline"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Sparkline sits cleanly below the metric with clear separation",
+    "Single accent color used consistently for the trend line",
+    "Card corners and shadow match the rest of the design system"
+  ]
+}

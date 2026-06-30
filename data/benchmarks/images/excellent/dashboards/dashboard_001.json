@@ -1,0 +1,35 @@
+{
+  "id": "dashboard_001",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 91,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "line_chart",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 8,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Calm, single-color accent against a neutral palette",
+    "Generous whitespace around the primary chart",
+    "Sidebar nav clearly separated from content"
+  ]
+}

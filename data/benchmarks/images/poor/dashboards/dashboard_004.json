@@ -1,0 +1,37 @@
+{
+  "id": "dashboard_004",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 40,
+  "product": "AI-generated",
+  "style": "noisy",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "high",
+  "components": [
+    "bar_chart",
+    "line_chart",
+    "pie_chart",
+    "table",
+    "card"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 6,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Too many chart types on a single view",
+    "No grouping or section headers to organize content",
+    "Colors clash across adjacent charts"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "forms_003",
+  "category": "forms",
+  "quality": "poor",
+  "quality_score": 30,
+  "product": "AI-generated",
+  "style": "checkout_overload",
+  "industry": "ecommerce",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "two_column",
+  "complexity": "high",
+  "components": [
+    "form",
+    "input",
+    "button",
+    "card"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "mixed_fonts",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Too many fields visible at once with no grouping",
+    "Primary CTA button competes visually with secondary buttons",
+    "No progress indicator for a multi-step checkout"
+  ]
+}

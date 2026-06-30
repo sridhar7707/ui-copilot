@@ -1,0 +1,34 @@
+{
+  "id": "dashboard_004",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 90,
+  "product": "AI-generated",
+  "style": "bold_minimal",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "topnav",
+  "complexity": "low",
+  "components": [
+    "bar_chart",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Purple accent used consistently for the single chart",
+    "Single focal metric at top with no competing numbers",
+    "Plenty of negative space framing the chart"
+  ]
+}

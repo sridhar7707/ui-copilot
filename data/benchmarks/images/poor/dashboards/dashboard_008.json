@@ -1,0 +1,39 @@
+{
+  "id": "dashboard_008",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 29,
+  "product": "AI-generated",
+  "style": "chaotic",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "high",
+  "components": [
+    "card",
+    "table",
+    "pie_chart",
+    "bar_chart",
+    "kpi_metric",
+    "sidebar",
+    "topbar"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "mixed_fonts",
+    "contrast": "poor",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 2,
+    "radius": 0,
+    "shadow": "heavy",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Random mix of border radii across components",
+    "No consistent color system for status/category coding",
+    "Scrollable area with no clear end or summary"
+  ]
+}

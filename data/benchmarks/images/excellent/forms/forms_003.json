@@ -1,0 +1,36 @@
+{
+  "id": "forms_003",
+  "category": "forms",
+  "quality": "excellent",
+  "quality_score": 86,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "fintech",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "medium",
+  "components": [
+    "form",
+    "input",
+    "button",
+    "validation_icon"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Validation state shown clearly with both icon and color",
+    "Field grouping (card number, expiry, CVC) logically arranged",
+    "Consistent input height across the whole form"
+  ]
+}

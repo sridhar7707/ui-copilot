@@ -1,0 +1,35 @@
+{
+  "id": "dashboard_002",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 89,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "line_chart",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Dark theme with sufficient contrast on key numbers",
+    "Single donut chart given clear visual priority",
+    "Consistent icon weight throughout sidebar"
+  ]
+}

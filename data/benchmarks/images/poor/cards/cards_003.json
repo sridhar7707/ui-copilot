@@ -1,0 +1,33 @@
+{
+  "id": "cards_003",
+  "category": "cards",
+  "quality": "poor",
+  "quality_score": 33,
+  "product": "AI-generated",
+  "style": "heavy_shadow",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card"
+  ],
+  "attributes": {
+    "spacing": "uneven",
+    "typography": "inconsistent",
+    "contrast": "low",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 8,
+    "radius": 16,
+    "shadow": "heavy",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Overly heavy drop shadows make cards feel like they're floating awkwardly",
+    "Excessive border radius looks dated",
+    "Text contrast against card background is weak"
+  ]
+}

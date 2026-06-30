@@ -1,0 +1,33 @@
+{
+  "id": "tables_004",
+  "category": "tables",
+  "quality": "poor",
+  "quality_score": 39,
+  "product": "AI-generated",
+  "style": "no_empty_state",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "full_width",
+  "complexity": "medium",
+  "components": [
+    "table"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "inconsistent",
+    "contrast": "low",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 6,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Empty table shows a blank white area with no message",
+    "Sort indicators on headers are unclear",
+    "Pagination controls visually disconnected from the table"
+  ]
+}

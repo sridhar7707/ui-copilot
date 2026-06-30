@@ -1,0 +1,35 @@
+{
+  "id": "settings_001",
+  "category": "settings",
+  "quality": "poor",
+  "quality_score": 41,
+  "product": "AI-generated",
+  "style": "crowded",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "high",
+  "components": [
+    "form",
+    "toggle",
+    "input"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "All settings sections shown on one long page with no grouping",
+    "Toggle switches inconsistent in size across the page",
+    "No clear save/confirmation pattern for changes"
+  ]
+}

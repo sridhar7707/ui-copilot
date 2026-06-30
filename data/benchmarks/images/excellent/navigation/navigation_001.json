@@ -1,0 +1,34 @@
+{
+  "id": "navigation_001",
+  "category": "navigation",
+  "quality": "excellent",
+  "quality_score": 90,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "nav_item"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 16,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Active nav item clearly highlighted with consistent treatment",
+    "Icon and label alignment consistent down the whole list",
+    "Comfortable spacing between nav groups"
+  ]
+}

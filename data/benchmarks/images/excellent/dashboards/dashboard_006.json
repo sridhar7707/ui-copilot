@@ -1,0 +1,34 @@
+{
+  "id": "dashboard_006",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 92,
+  "product": "AI-generated",
+  "style": "modern",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "low",
+  "components": [
+    "sidebar",
+    "line_chart"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "excellent",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 8,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Single smooth area chart as the clear focal point",
+    "Soft gradient fill used tastefully, not distractingly",
+    "Sidebar kept visually quiet to not compete with the chart"
+  ]
+}

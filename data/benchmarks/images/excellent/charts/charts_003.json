@@ -1,0 +1,33 @@
+{
+  "id": "charts_003",
+  "category": "charts",
+  "quality": "excellent",
+  "quality_score": 90,
+  "product": "AI-generated",
+  "style": "modern",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "donut_chart"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "excellent",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 12,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Clear legend with distinct, harmonious slice colors",
+    "Center label gives the chart a clear focal point",
+    "Generous surrounding whitespace"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "cards_003",
+  "category": "cards",
+  "quality": "excellent",
+  "quality_score": 90,
+  "product": "AI-generated",
+  "style": "modern",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "excellent",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 14,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Large KPI number given clear visual priority over label",
+    "Trend indicator color and direction are unambiguous",
+    "Generous internal padding keeps the card feeling uncluttered"
+  ]
+}

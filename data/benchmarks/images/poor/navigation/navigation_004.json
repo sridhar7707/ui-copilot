@@ -1,0 +1,35 @@
+{
+  "id": "navigation_004",
+  "category": "navigation",
+  "quality": "poor",
+  "quality_score": 39,
+  "product": "AI-generated",
+  "style": "inconsistent_icons",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "nav_item",
+    "topbar"
+  ],
+  "attributes": {
+    "spacing": "uneven",
+    "typography": "mixed_fonts",
+    "contrast": "medium",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 6,
+    "radius": 2,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Icon set mixes outlined and filled styles inconsistently",
+    "Spacing between nav items varies down the list",
+    "User avatar menu has no visible affordance that it's clickable"
+  ]
+}

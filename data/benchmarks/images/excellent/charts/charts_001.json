@@ -1,0 +1,33 @@
+{
+  "id": "charts_001",
+  "category": "charts",
+  "quality": "excellent",
+  "quality_score": 88,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "line_chart"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Two clearly distinguishable line series with a legend",
+    "Axis labels legible without crowding the plot area",
+    "Restrained color palette appropriate for the data"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "cards_002",
+  "category": "cards",
+  "quality": "poor",
+  "quality_score": 36,
+  "product": "AI-generated",
+  "style": "cramped",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 2,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Metric value and label nearly touching",
+    "No visual separation between adjacent cards",
+    "Trend indicator color barely visible"
+  ]
+}

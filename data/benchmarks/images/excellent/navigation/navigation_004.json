@@ -1,0 +1,34 @@
+{
+  "id": "navigation_004",
+  "category": "navigation",
+  "quality": "excellent",
+  "quality_score": 89,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "topnav",
+  "complexity": "low",
+  "components": [
+    "topbar",
+    "nav_item"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 16,
+    "radius": 6,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Top nav items evenly spaced with clear active state",
+    "Workspace name and breadcrumb kept visually subordinate",
+    "Consistent button style for the single primary action"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "navigation_003",
+  "category": "navigation",
+  "quality": "poor",
+  "quality_score": 33,
+  "product": "AI-generated",
+  "style": "no_active_state",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "nav_item"
+  ],
+  "attributes": {
+    "spacing": "moderate",
+    "typography": "inconsistent",
+    "contrast": "low",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 8,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "No visual indication of which page is currently active",
+    "Nested nav items not visually indented",
+    "Collapse/expand icon ambiguous in meaning"
+  ]
+}

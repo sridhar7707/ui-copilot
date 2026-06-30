@@ -1,0 +1,36 @@
+{
+  "id": "dashboard_007",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 87,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "bar_chart",
+    "kpi_metric",
+    "donut_chart"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Dark theme maintains good contrast on bars and labels",
+    "Bar and donut charts share a consistent color system",
+    "Sidebar nav items have generous vertical spacing"
+  ]
+}

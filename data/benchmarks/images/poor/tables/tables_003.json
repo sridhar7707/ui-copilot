@@ -1,0 +1,33 @@
+{
+  "id": "tables_003",
+  "category": "tables",
+  "quality": "poor",
+  "quality_score": 34,
+  "product": "AI-generated",
+  "style": "misaligned_columns",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "full_width",
+  "complexity": "high",
+  "components": [
+    "table"
+  ],
+  "attributes": {
+    "spacing": "uneven",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Numeric columns left-aligned instead of right-aligned",
+    "Column widths don't match content, causing wrapping",
+    "Action buttons inconsistently placed per row"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "dashboard_007",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 33,
+  "product": "AI-generated",
+  "style": "low_contrast",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "high",
+  "components": [
+    "card",
+    "table",
+    "bar_chart",
+    "topbar"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "low_contrast",
+    "contrast": "poor",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Light gray text on white background throughout",
+    "Status indicators indistinguishable by color alone",
+    "No focal point on the page"
+  ]
+}

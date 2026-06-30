@@ -1,0 +1,33 @@
+{
+  "id": "tables_001",
+  "category": "tables",
+  "quality": "poor",
+  "quality_score": 37,
+  "product": "AI-generated",
+  "style": "dense",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "full_width",
+  "complexity": "high",
+  "components": [
+    "table"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 2,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Row height too small for comfortable scanning",
+    "Header row not visually distinct from data rows",
+    "Too many columns crammed without horizontal scroll affordance"
+  ]
+}

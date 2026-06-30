@@ -1,0 +1,36 @@
+{
+  "id": "dashboard_008",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 90,
+  "product": "AI-generated",
+  "style": "modern",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "line_chart",
+    "donut_chart",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Clean grid alignment between chart panels",
+    "Consistent green accent used for positive trend indicators",
+    "Clear visual separation between sidebar and main content"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "tables_001",
+  "category": "tables",
+  "quality": "excellent",
+  "quality_score": 87,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "full_width",
+  "complexity": "medium",
+  "components": [
+    "table",
+    "badge"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 16,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Generous row height makes scanning easy",
+    "Header row clearly distinguished by weight and color",
+    "Status badges use a consistent, limited color palette"
+  ]
+}

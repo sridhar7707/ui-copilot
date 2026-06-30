@@ -1,0 +1,33 @@
+{
+  "id": "charts_001",
+  "category": "charts",
+  "quality": "poor",
+  "quality_score": 34,
+  "product": "AI-generated",
+  "style": "unreadable",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "medium",
+  "components": [
+    "line_chart"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "poor",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Too many data series plotted on one chart with similar colors",
+    "Axis labels overlapping and unreadable at default zoom",
+    "No legend to identify which line represents what"
+  ]
+}

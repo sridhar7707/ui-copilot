@@ -1,0 +1,35 @@
+{
+  "id": "dashboard_005",
+  "category": "dashboards",
+  "quality": "excellent",
+  "quality_score": 88,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "sidebar",
+    "donut_chart",
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Donut chart and metric numbers given equal balanced weight",
+    "Sidebar icons all from a single consistent set",
+    "Comfortable line-height on all label text"
+  ]
+}

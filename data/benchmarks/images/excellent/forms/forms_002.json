@@ -1,0 +1,35 @@
+{
+  "id": "forms_002",
+  "category": "forms",
+  "quality": "excellent",
+  "quality_score": 87,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas_signup",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "low",
+  "components": [
+    "form",
+    "input",
+    "button"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Clear visual focus state implied by consistent input style",
+    "Generous vertical rhythm between form fields",
+    "Primary button full-width and unmistakably the next step"
+  ]
+}

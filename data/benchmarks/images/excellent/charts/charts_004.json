@@ -1,0 +1,33 @@
+{
+  "id": "charts_004",
+  "category": "charts",
+  "quality": "excellent",
+  "quality_score": 86,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "bar_chart"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Single blue accent used consistently across all bars",
+    "Clear axis title and units",
+    "Comfortable spacing between bars avoids a cluttered look"
+  ]
+}

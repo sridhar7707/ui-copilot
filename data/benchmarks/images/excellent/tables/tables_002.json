@@ -1,0 +1,35 @@
+{
+  "id": "tables_002",
+  "category": "tables",
+  "quality": "excellent",
+  "quality_score": 85,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "full_width",
+  "complexity": "medium",
+  "components": [
+    "table",
+    "avatar",
+    "badge"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 16,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Consistent column alignment across all rows",
+    "Subtle row separators without heavy borders",
+    "Avatar and name pairing kept visually tidy"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "forms_001",
+  "category": "forms",
+  "quality": "poor",
+  "quality_score": 35,
+  "product": "AI-generated",
+  "style": "cramped_labels",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "medium",
+  "components": [
+    "form",
+    "input",
+    "button"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Labels sit directly on top of inputs with no gap",
+    "No visible focus state on input fields",
+    "Submit button styled identically to a secondary link"
+  ]
+}

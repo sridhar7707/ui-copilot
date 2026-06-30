@@ -1,0 +1,36 @@
+{
+  "id": "dashboard_002",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 42,
+  "product": "AI-generated",
+  "style": "dense",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "sidebar",
+  "complexity": "high",
+  "components": [
+    "card",
+    "table",
+    "kpi_metric",
+    "sidebar"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "low",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 6,
+    "radius": 2,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Dark theme with insufficient contrast on text",
+    "KPI numbers buried among secondary data",
+    "Sidebar nav items too closely packed"
+  ]
+}

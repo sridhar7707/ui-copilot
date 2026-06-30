@@ -1,0 +1,35 @@
+{
+  "id": "dashboard_006",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 44,
+  "product": "AI-generated",
+  "style": "misaligned",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "medium",
+  "components": [
+    "card",
+    "table",
+    "line_chart"
+  ],
+  "attributes": {
+    "spacing": "uneven",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 10,
+    "radius": 6,
+    "shadow": "medium",
+    "spacing_unit": 6
+  },
+  "notes": [
+    "Cards in the same row have different heights",
+    "Inconsistent left/right alignment across sections",
+    "Chart axis labels overlap"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "dashboard_005",
+  "category": "dashboards",
+  "quality": "poor",
+  "quality_score": 31,
+  "product": "AI-generated",
+  "style": "overloaded",
+  "industry": "ai_saas",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "grid",
+  "complexity": "high",
+  "components": [
+    "card",
+    "table",
+    "kpi_metric",
+    "line_chart",
+    "sidebar",
+    "topbar"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "low",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Every available widget type used at once",
+    "No empty space anywhere on the screen",
+    "Primary metric has no visual emphasis over secondary ones"
+  ]
+}

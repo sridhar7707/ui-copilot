@@ -1,0 +1,34 @@
+{
+  "id": "cards_001",
+  "category": "cards",
+  "quality": "excellent",
+  "quality_score": 88,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card",
+    "avatar"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 12,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Consistent avatar size and placement across cards",
+    "Equal padding on all sides of each card",
+    "Subtle shadow gives gentle depth without distraction"
+  ]
+}

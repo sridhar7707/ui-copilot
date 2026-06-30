@@ -1,0 +1,34 @@
+{
+  "id": "metrics_002",
+  "category": "metrics",
+  "quality": "poor",
+  "quality_score": 33,
+  "product": "AI-generated",
+  "style": "buried_kpi",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "card",
+  "complexity": "medium",
+  "components": [
+    "kpi_metric",
+    "sparkline"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "low",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Sparkline overlaps the metric value text",
+    "Secondary stats given equal visual weight to the headline number",
+    "Low contrast makes the metric hard to read at a glance"
+  ]
+}

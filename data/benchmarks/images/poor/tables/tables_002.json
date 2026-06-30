@@ -1,0 +1,33 @@
+{
+  "id": "tables_002",
+  "category": "tables",
+  "quality": "poor",
+  "quality_score": 41,
+  "product": "AI-generated",
+  "style": "low_contrast_header",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "full_width",
+  "complexity": "medium",
+  "components": [
+    "table"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "low_contrast",
+    "contrast": "poor",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Header text barely darker than data rows",
+    "No zebra striping or row separation, hard to track across",
+    "Status column uses color alone with no text label"
+  ]
+}

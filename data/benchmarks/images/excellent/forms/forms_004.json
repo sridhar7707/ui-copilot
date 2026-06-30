@@ -1,0 +1,35 @@
+{
+  "id": "forms_004",
+  "category": "forms",
+  "quality": "excellent",
+  "quality_score": 89,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "low",
+  "components": [
+    "form",
+    "input",
+    "button"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "spacious"
+  },
+  "design_tokens": {
+    "padding": 24,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Short, focused form with no unnecessary fields",
+    "Clear single call-to-action with no competing buttons",
+    "Comfortable whitespace around the entire form card"
+  ]
+}

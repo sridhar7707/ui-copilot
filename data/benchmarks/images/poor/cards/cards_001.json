@@ -1,0 +1,33 @@
+{
+  "id": "cards_001",
+  "category": "cards",
+  "quality": "poor",
+  "quality_score": 40,
+  "product": "AI-generated",
+  "style": "inconsistent",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 6,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Six different card styles shown side by side",
+    "Inconsistent padding between cards",
+    "No shared corner radius or shadow treatment"
+  ]
+}

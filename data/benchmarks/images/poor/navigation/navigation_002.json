@@ -1,0 +1,34 @@
+{
+  "id": "navigation_002",
+  "category": "navigation",
+  "quality": "poor",
+  "quality_score": 41,
+  "product": "AI-generated",
+  "style": "overcrowded_topnav",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "topnav",
+  "complexity": "high",
+  "components": [
+    "topbar",
+    "nav_item"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Too many top-level nav items with no overflow menu",
+    "Logo and nav items crammed together with no breathing room",
+    "Search bar squeezed into remaining space, too narrow to use"
+  ]
+}

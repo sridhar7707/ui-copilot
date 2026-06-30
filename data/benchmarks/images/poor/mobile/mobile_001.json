@@ -1,0 +1,35 @@
+{
+  "id": "mobile_001",
+  "category": "mobile",
+  "quality": "poor",
+  "quality_score": 32,
+  "product": "AI-generated",
+  "style": "tiny_touch_targets",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "medium",
+  "components": [
+    "card",
+    "nav_item",
+    "button"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 2,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Tap targets well under the 44px minimum recommended size",
+    "Bottom nav icons crammed too close together for accurate taps",
+    "Text requires zooming to read comfortably"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "cards_002",
+  "category": "cards",
+  "quality": "excellent",
+  "quality_score": 86,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "grid",
+  "complexity": "low",
+  "components": [
+    "card",
+    "avatar",
+    "badge"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Status badges use a single consistent color system",
+    "Card titles and metadata clearly differentiated by weight",
+    "Comfortable spacing between stacked cards"
+  ]
+}

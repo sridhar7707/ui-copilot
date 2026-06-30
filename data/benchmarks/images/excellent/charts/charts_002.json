@@ -1,0 +1,33 @@
+{
+  "id": "charts_002",
+  "category": "charts",
+  "quality": "excellent",
+  "quality_score": 87,
+  "product": "AI-generated",
+  "style": "minimal",
+  "industry": "analytics",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "bar_chart"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "good",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 20,
+    "radius": 10,
+    "shadow": "light",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Bars evenly spaced with clear category labels",
+    "Single consistent color used across all bars",
+    "Gridlines subtle enough to not compete with the data"
+  ]
+}

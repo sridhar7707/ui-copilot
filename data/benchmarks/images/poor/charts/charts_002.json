@@ -1,0 +1,33 @@
+{
+  "id": "charts_002",
+  "category": "charts",
+  "quality": "poor",
+  "quality_score": 30,
+  "product": "AI-generated",
+  "style": "misleading_scale",
+  "industry": "finance",
+  "framework": "unspecified",
+  "theme": "dark",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "pie_chart"
+  ],
+  "attributes": {
+    "spacing": "moderate",
+    "typography": "low_contrast",
+    "contrast": "poor",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 8,
+    "radius": 4,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Pie slices use near-identical colors, hard to distinguish",
+    "Percentage labels rendered in low-contrast gray on dark background",
+    "Chart title is smaller than the data labels inside it"
+  ]
+}

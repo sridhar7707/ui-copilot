@@ -1,0 +1,34 @@
+{
+  "id": "tables_003",
+  "category": "tables",
+  "quality": "excellent",
+  "quality_score": 88,
+  "product": "AI-generated",
+  "style": "modern",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "full_width",
+  "complexity": "medium",
+  "components": [
+    "table",
+    "badge"
+  ],
+  "attributes": {
+    "spacing": "excellent",
+    "typography": "clear",
+    "contrast": "excellent",
+    "density": "comfortable"
+  },
+  "design_tokens": {
+    "padding": 16,
+    "radius": 8,
+    "shadow": "none",
+    "spacing_unit": 8
+  },
+  "notes": [
+    "Clear visual hierarchy between header and data rows",
+    "Numeric columns right-aligned for easy scanning",
+    "Sort indicators on headers are unambiguous"
+  ]
+}

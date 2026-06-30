@@ -1,0 +1,34 @@
+{
+  "id": "navigation_001",
+  "category": "navigation",
+  "quality": "poor",
+  "quality_score": 36,
+  "product": "AI-generated",
+  "style": "confusing_sidebar",
+  "industry": "generic",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "sidebar",
+  "complexity": "high",
+  "components": [
+    "sidebar",
+    "nav_item"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "inconsistent",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 4,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "No grouping between primary and secondary nav items",
+    "Active state indistinguishable from hover state",
+    "Icons inconsistent in style across items"
+  ]
+}

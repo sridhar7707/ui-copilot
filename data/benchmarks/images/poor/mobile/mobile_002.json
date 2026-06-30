@@ -1,0 +1,34 @@
+{
+  "id": "mobile_002",
+  "category": "mobile",
+  "quality": "poor",
+  "quality_score": 35,
+  "product": "AI-generated",
+  "style": "desktop_squeezed",
+  "industry": "crm",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "single_column",
+  "complexity": "high",
+  "components": [
+    "table",
+    "card"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "tiny",
+    "contrast": "medium",
+    "density": "overcrowded"
+  },
+  "design_tokens": {
+    "padding": 2,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 2
+  },
+  "notes": [
+    "Desktop table layout simply shrunk instead of redesigned for mobile",
+    "Horizontal scrolling required to see all columns",
+    "No mobile-specific navigation pattern, just a shrunk sidebar"
+  ]
+}

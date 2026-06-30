@@ -1,0 +1,33 @@
+{
+  "id": "metrics_001",
+  "category": "metrics",
+  "quality": "poor",
+  "quality_score": 37,
+  "product": "AI-generated",
+  "style": "no_emphasis",
+  "industry": "saas",
+  "framework": "unspecified",
+  "theme": "light",
+  "layout": "card",
+  "complexity": "low",
+  "components": [
+    "kpi_metric"
+  ],
+  "attributes": {
+    "spacing": "cramped",
+    "typography": "no_hierarchy",
+    "contrast": "medium",
+    "density": "moderate"
+  },
+  "design_tokens": {
+    "padding": 6,
+    "radius": 0,
+    "shadow": "none",
+    "spacing_unit": 4
+  },
+  "notes": [
+    "Primary metric value rendered at the same size as the label",
+    "Trend arrow color doesn't clearly indicate positive or negative",
+    "No comparison period shown for context"
+  ]
+}
