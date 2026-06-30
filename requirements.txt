@@ -9,19 +9,13 @@ Pillow
 opencv-python-headless
 numpy
 
-# Embedding similarity scoring (Module 3b — optional, enables /benchmark on screenshots)
-# Uncomment to enable CLIP similarity scoring locally; kept out of Docker build
-# because PyTorch adds ~2GB. HF Space already caches torch from the hub.
-# sentence-transformers
-
-# --- Database (add when implementing repositories) ---
+# Database
 aiosqlite
 
-# --- Runtime utilities ---
+# Runtime utilities
 typing_extensions
 
-# --- Dev & quality tooling ---
-pytest
-ruff
-pytest-asyncio
-httpx
+# Embedding similarity scoring (Module 3b — optional, enables /benchmark on screenshots)
+# Uncomment to enable CLIP similarity scoring; kept out of Docker build
+# because PyTorch adds ~2GB. Run: pip install sentence-transformers
+# sentence-transformers

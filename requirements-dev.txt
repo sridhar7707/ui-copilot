@@ -1,0 +1,7 @@
+-r requirements.txt
+
+# Testing & linting (dev only — not installed in Docker)
+pytest
+pytest-asyncio
+httpx
+ruff
