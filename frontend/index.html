@@ -442,6 +442,12 @@ function populateProjectSelects() {
 async function selectProject(p) {
   activeProject = p;
   renderProjectList();
+  // Sync the analyze-tab dropdowns to the newly selected project
+  const id = String(p.id);
+  ['html-project-select', 'ss-project-select'].forEach(elId => {
+    const sel = document.getElementById(elId);
+    if (sel) sel.value = id;
+  });
   await loadProjectData(p.id);
 }
 
@@ -592,6 +598,7 @@ function renderAchievementsTab(badges, earned, total) {
 async function analyzeHTML() {
   const htmlFile = document.getElementById('html-file-input').files[0];
   if (!htmlFile) return;
+  const projectId = document.getElementById('html-project-select').value;
   const loading = document.getElementById('html-loading');
   loading.style.display = 'block';
   const form = new FormData();
@@ -599,8 +606,24 @@ async function analyzeHTML() {
   const cssFile = document.getElementById('css-file-input').files[0];
   if (cssFile) form.append('css_file', cssFile);
   try {
-    const res = await fetch(`${API}/analyze`, { method: 'POST', body: form });
-    const data = await res.json();
+    let data;
+    if (projectId) {
+      const pageRes = await fetch(`${API}/projects/${projectId}/pages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: htmlFile.name, url: '' }),
+      });
+      if (!pageRes.ok) throw new Error('Could not create page in project');
+      const page = await pageRes.json();
+      const res = await fetch(`${API}/pages/${page.id}/analyze`, { method: 'POST', body: form });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.detail ?? 'Analysis failed'); }
+      data = await res.json();
+      activeProject = projects.find(p => p.id === parseInt(projectId)) ?? activeProject;
+    } else {
+      const res = await fetch(`${API}/analyze`, { method: 'POST', body: form });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.detail ?? 'Analysis failed'); }
+      data = await res.json();
+    }
     loading.style.display = 'none';
     renderResult('html', data);
   } catch (e) {
@@ -613,13 +636,30 @@ async function analyzeHTML() {
 async function analyzeScreenshot() {
   const ssFile = document.getElementById('ss-file-input').files[0];
   if (!ssFile) return;
+  const projectId = document.getElementById('ss-project-select').value;
   const loading = document.getElementById('ss-loading');
   loading.style.display = 'block';
   const form = new FormData();
   form.append('screenshot', ssFile);
   try {
-    const res = await fetch(`${API}/analyze/screenshot`, { method: 'POST', body: form });
-    const data = await res.json();
+    let data;
+    if (projectId) {
+      const pageRes = await fetch(`${API}/projects/${projectId}/pages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: ssFile.name, url: '' }),
+      });
+      if (!pageRes.ok) throw new Error('Could not create page in project');
+      const page = await pageRes.json();
+      const res = await fetch(`${API}/pages/${page.id}/analyze/screenshot`, { method: 'POST', body: form });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.detail ?? 'Analysis failed'); }
+      data = await res.json();
+      activeProject = projects.find(p => p.id === parseInt(projectId)) ?? activeProject;
+    } else {
+      const res = await fetch(`${API}/analyze/screenshot`, { method: 'POST', body: form });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.detail ?? 'Analysis failed'); }
+      data = await res.json();
+    }
     loading.style.display = 'none';
     renderResult('ss', data);
   } catch (e) {

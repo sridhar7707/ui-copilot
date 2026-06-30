@@ -4,6 +4,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from backend.analyzers import screenshot_analyzer
 from backend.models.issue import Issue
+from backend.repositories import analysis_repo, page_repo
 from backend.services import (
     accessibility_service,
     benchmark_service,
@@ -68,9 +69,12 @@ async def analyze_screenshot(screenshot: UploadFile = File(...)):
         raise HTTPException(status_code=422, detail=f"Could not process image: {exc}") from exc
 
     result = scoring_engine.analyze(parsed)
-    a11y_report = accessibility_service.build_report(result, parsed)
+    return _build_screenshot_response(result, parsed, image_bytes)
 
-    return {
+
+def _build_screenshot_response(result, parsed, image_bytes, saved=None):
+    a11y_report = accessibility_service.build_report(result, parsed)
+    out = {
         "overall_score": result.overall_score,
         "category_scores": [
             {
@@ -100,3 +104,40 @@ async def analyze_screenshot(screenshot: UploadFile = File(...)):
         "benchmark": benchmark_service.score(image_bytes),
         "analyzed_by": "screenshot",
     }
+    if saved:
+        out["analysis_id"] = saved["id"]
+        out["page_id"] = saved["page_id"]
+        out["created_at"] = saved["created_at"]
+    return out
+
+
+@router.post("/pages/{page_id}/analyze/screenshot", status_code=201, tags=["projects"])
+async def analyze_screenshot_and_save(
+    page_id: int,
+    screenshot: UploadFile = File(...),
+):
+    """
+    Upload a screenshot, score it, and persist the result linked to a project page.
+
+    Returns the same shape as POST /analyze/screenshot, plus analysis_id and page_id.
+    """
+    page = await page_repo.get(page_id)
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found.")
+
+    content_type = screenshot.content_type or ""
+    if not content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image (image/*).")
+
+    image_bytes = await screenshot.read()
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+    try:
+        parsed = screenshot_analyzer.analyze(image_bytes)
+    except Exception as exc:
+        raise HTTPException(status_code=422, detail=f"Could not process image: {exc}") from exc
+
+    result = scoring_engine.analyze(parsed)
+    saved = await analysis_repo.save(page_id, result, source="screenshot")
+    return _build_screenshot_response(result, parsed, image_bytes, saved)
