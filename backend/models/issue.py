@@ -20,6 +20,10 @@ class Category(str, Enum):
     ACCESSIBILITY = "accessibility"
     CONTRAST = "contrast"
     COMPONENT_QUALITY = "component_quality"
+    CONVERSION_OPTIMIZATION = "conversion_optimization"
+    UX_QUALITY = "ux_quality"
+    PERFORMANCE = "performance"
+    INTERACTIVITY = "interactivity"
 
 
 @dataclass

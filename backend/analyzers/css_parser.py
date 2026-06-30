@@ -162,3 +162,47 @@ def parse_inline_style(style_attr: str) -> dict[str, str]:
             prop, _, value = decl.partition(":")
             result[prop.strip().lower()] = value.strip()
     return result
+
+
+def parse_media_breakpoints(css_text: str) -> list[int]:
+    """Extract pixel widths from @media min-width/max-width queries."""
+    widths: set[int] = set()
+    for m in re.finditer(
+        r"@media[^{]*(?:max-width|min-width)\s*:\s*(\d+)px", css_text, re.IGNORECASE
+    ):
+        widths.add(int(m.group(1)))
+    return sorted(widths)
+
+
+def has_hover_rules(css_text: str) -> bool:
+    """Return True if any :hover pseudo-class rule exists in the CSS."""
+    return bool(re.search(r":hover\s*\{", css_text))
+
+
+def has_transition_rules(css_text: str) -> bool:
+    """Return True if any CSS transition or @keyframes animation is defined."""
+    return bool(re.search(r"\btransition\s*:|@keyframes\b|animation\s*:", css_text))
+
+
+def has_focus_outline_removed(css_text: str) -> bool:
+    """Return True if outline is set to none/0 without a replacement focus style."""
+    stripped = re.sub(r"/\*.*?\*/", "", css_text, flags=re.DOTALL)
+    return bool(re.search(r"outline\s*:\s*(?:none|0)\s*[;!}]", stripped))
+
+
+def parse_font_faces(css_text: str) -> list[str]:
+    """Return font-family names declared via @font-face blocks."""
+    names: list[str] = []
+    for m in re.finditer(r"@font-face\s*\{([^}]*)\}", css_text, re.DOTALL):
+        fm = re.search(r"font-family\s*:\s*['\"]?([^;'\"]+)['\"]?\s*;", m.group(1))
+        if fm:
+            names.append(fm.group(1).strip().strip("'\""))
+    return names
+
+
+def has_font_display(css_text: str) -> bool:
+    """Return True if at least one @font-face block declares font-display."""
+    for m in re.finditer(r"@font-face\s*\{([^}]*)\}", css_text, re.DOTALL):
+        if re.search(r"font-display\s*:", m.group(1)):
+            return True
+    return False

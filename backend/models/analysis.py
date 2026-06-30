@@ -141,6 +141,15 @@ class ChartData(TypedDict):
     colors: list[str]   # hex colours used in the chart
 
 
+class ImageData(TypedDict):
+    src: str
+    has_alt: bool
+    alt_text: str
+    has_srcset: bool
+    has_width: bool
+    has_height: bool
+
+
 class ParsedPage(TypedDict):
     # Typography
     fonts: list[str]
@@ -160,3 +169,28 @@ class ParsedPage(TypedDict):
     whitespace_ratio: float             # 0.0–1.0 estimate
     # Spacing inventory
     spacing_values_px: list[float]      # all margin/padding values found
+    # Mobile / responsive (content_signals)
+    has_viewport_meta: bool
+    has_horizontal_overflow: bool
+    media_query_breakpoints: list[int]  # e.g. [768, 1024]
+    # Images (content_signals)
+    images: list[ImageData]
+    # Interactivity (content_signals)
+    has_hover_styles: bool
+    has_transitions: bool
+    has_focus_outline_removed: bool
+    has_skip_link: bool
+    # Performance (content_signals)
+    web_fonts: list[str]
+    has_font_display: bool
+    # Conversion / UX (content_signals)
+    trust_signal_count: int
+    has_testimonials: bool
+    cta_texts: list[str]
+    has_hero: bool
+    hero_word_count: int
+    has_error_states: bool
+    has_empty_states: bool
+    form_field_counts: list[int]
+    page_word_count: int
+    has_pricing_section: bool

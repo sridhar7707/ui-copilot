@@ -13,6 +13,7 @@ from typing import Optional
 
 from bs4 import BeautifulSoup, Tag
 
+from backend.analyzers.content_signals import extract as _extract_signals
 from backend.analyzers.css_parser import (
     get_padding,
     normalize_color,
@@ -42,9 +43,10 @@ def parse(html: str, css: str = "") -> ParsedPage:
     """
     soup = BeautifulSoup(html, "html.parser")
     inline_css = "\n".join(tag.get_text() for tag in soup.find_all("style"))
-    rules = parse_css_rules(inline_css + "\n" + css)
+    raw_css = inline_css + "\n" + css
+    rules = parse_css_rules(raw_css)
 
-    return {
+    page: dict = {
         "fonts": _fonts(soup, rules),
         "headings": _headings(soup, rules),
         "body_font_size_px": _body_font_size(soup, rules),
@@ -59,6 +61,8 @@ def parse(html: str, css: str = "") -> ParsedPage:
         "whitespace_ratio": _whitespace_ratio(soup, rules),
         "spacing_values_px": _spacing_values(soup, rules),
     }
+    page.update(_extract_signals(soup, raw_css))
+    return page
 
 
 # ---------------------------------------------------------------------------

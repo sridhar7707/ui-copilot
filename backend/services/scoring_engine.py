@@ -7,11 +7,15 @@ from backend.rules import (
     button_rules,
     chart_rules,
     contrast_rules,
+    conversion_rules,
     dashboard_rules,
     form_rules,
+    interactivity_rules,
+    performance_rules,
     spacing_rules,
     table_rules,
     typography_rules,
+    ux_quality_rules,
 )
 from backend.utils.config_loader import load_scoring_config
 
@@ -27,6 +31,10 @@ _RULE_MODULES = [
     design_system_analyzer,
     dashboard_analyzer,
     mobile_analyzer,
+    conversion_rules,
+    ux_quality_rules,
+    performance_rules,
+    interactivity_rules,
 ]
 
 

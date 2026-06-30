@@ -1,12 +1,16 @@
 {
   "weights": {
-    "visual_hierarchy": 0.20,
-    "typography": 0.15,
-    "spacing": 0.15,
-    "consistency": 0.15,
-    "accessibility": 0.15,
-    "contrast": 0.10,
-    "component_quality": 0.10
+    "visual_hierarchy":        0.15,
+    "typography":              0.12,
+    "spacing":                 0.11,
+    "consistency":             0.11,
+    "accessibility":           0.15,
+    "contrast":                0.08,
+    "component_quality":       0.08,
+    "conversion_optimization": 0.10,
+    "ux_quality":              0.06,
+    "performance":             0.03,
+    "interactivity":           0.01
   },
   "severity_deductions": {
     "critical": 25,
@@ -67,6 +71,15 @@
     },
     "charts": {
       "min_color_distance": 30
+    },
+    "conversion": {
+      "max_form_fields": 6,
+      "min_trust_signals": 1,
+      "hero_max_words": 150,
+      "hero_min_words": 5
+    },
+    "performance": {
+      "required_breakpoints": [768]
     }
   }
 }
