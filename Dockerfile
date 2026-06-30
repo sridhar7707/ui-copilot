@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Optional: CLIP similarity scoring (Module 3b).
+# sentence-transformers pulls PyTorch (~2 GB) — install separately so a
+# failure here doesn't break the core app (benchmark returns available:false).
+RUN pip install --no-cache-dir sentence-transformers || \
+    echo "sentence-transformers unavailable — benchmark scoring disabled"
+
 COPY . .
 
 # HuggingFace Spaces persistent storage mounts at /data
