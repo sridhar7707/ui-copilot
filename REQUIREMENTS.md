@@ -256,7 +256,7 @@ Detection uses free, locally-run techniques rather than a paid vision-LLM API ca
 - **Open-source layout/component models** (free) — locally-run, CPU-friendly models (e.g. HuggingFace layout-detection models) for classifying cards/tables/buttons/nav from pixels. Narrower than a vision-LLM but accurate enough for the standard UI component vocabulary.
 - **Framework fingerprinting** (free) — known CSS/visual signatures of Bootstrap, Tailwind, and Material defaults are matched against uploaded HTML/CSS (or inferred from screenshot color/shape patterns when no source is available) to flag "looks like an unstyled default."
 
-### Module 3b — Benchmark Library & Similarity Scoring
+### Module 3b — Benchmark Library & Similarity Scoring ✅ DONE
 
 **Status: optional enhancement, not a dependency.** Nothing in Phases 1–3 of the Build Order requires this module — it is built in Phase 4, after the Rule Engine, Design System Analyzer, and Prompt Generator already produce a useful, shippable tool. Renamed from "Reference Dataset" to **Benchmark Library**, since the latter accurately signals "curated examples of excellent (and poor) UI for comparison" rather than implying ML training infrastructure.
 
